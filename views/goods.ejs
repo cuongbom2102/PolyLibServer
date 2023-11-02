@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyLib</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            width: 80%;
+            margin-left: 130px;
+        }
+        .row{
+            width: 80%;
+            margin-left: 130px;
+            margin-top: 20px;
+        }
+        .input{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+        #choose{
+            width: 300px;
+            margin-top: 20px;
+        }
+        #push{
+            width: 200px;
+            height: 40px;
+            margin-left: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: orange;
+            color: white;
+        }
+        #push:hover{
+            background-color: orangered;
+        }
+        .button:hover{
+            background-color: orangered;
+        }
+        .select{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+        .status-blue {
+            color: blue;
+        }
+
+        .status-red {
+            color: red;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            background-color: orange;
+            color: white;
+        }
+
+        .action-button + .action-button {
+            margin-left: 5px;
+        }
+        .ListGoods{
+            grid-area: ListGoods;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .itemGoods{
+            width: 200px;
+            height: 340px;
+            background-color: #e0dfdf;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .itemTextFullName{
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        .imgGoods{
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            width: 100%; height: 60%;
+            object-fit: cover;margin-bottom: 5px
+        }
+        .itemText{
+            margin-left: 5px;
+        }
+        #buttonDelUp{
+            margin-left: 5px;
+            margin-top: 5px;
+            width: 45%;
+            height: 40px;
+        }
+        .hiddenImage {
+            display: none;
+        }
+        .hiddenImageAdd {
+            display: none;
+        }
+
+        .visibleImage {
+            display: block;
+        }
+        .visibleImageAdd {
+            display: block;
+        }
+
+
+
+
+        .alert-dialog {
+            /* Thêm các thuộc tính CSS cho dialog */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 50%;
+            max-height: 80%;
+            overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung vượt quá kích thước */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+
+        .alert-dialog-content {
+            margin-bottom: 10px;
+        }
+        .alert-dialog-name {
+            font-weight: bold;
+        }
+        .alert-dialog-price {
+            font-style: italic;
+        }
+
+        .alert-dialog-category {
+            font-style: italic;
+        }
+        .alert-dialog-image{
+            width: 20%;
+            height: 200px;
+            margin-top: 20px;
+            margin-left: -10px;
+        }
+        .close-button{
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 25px;
+            border: none;
+            float: left;
+            background-color: orange;
+            margin-bottom: 20px;
+
+        }
+        .close-button:hover{
+            background-color: orangered;
+        }
+        .content{
+            width: 60%;
+            float: right;
+            margin-top: 20px;
+            margin-right: 110px;
+            margin-left: 10px;
+        }
+        .buttons{
+            float: right;
+        }
+        .button{
+            width: 80px;
+            background-color: orange;
+            margin: 5px;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            padding-bottom: 5px;
+        }
+        .button:hover{
+            background-color: orangered;
+        }
+        .head-wrapper{
+            width: 100%;
+            height: 40px;
+            padding-top: 5px;
+            border-bottom: 1px solid gray;
+        }
+        .text-title-head{
+            font-size: 22px;
+            text-align: center;
+            margin-left: 280px;
+            color: orangered;
+            font-family: "Barlow Condensed";
+
+        }
+        .duongKeNgang{
+            width: 100%;
+            border-bottom: 1px solid gray;
+            margin-top: 50px;
+        }
+        .likeAndCommentDiv{
+            width: 100%;
+            height:30px;
+            border-bottom: 1px solid gray;
+        }
+        .like-button{
+            border: none;
+            background-color: white;
+            float: left;
+            margin-left: 5px;
+            color: gray;
+        }
+        .like-button:hover{
+            text-decoration: underline;
+        }
+        .dislike-button{
+            border: none;
+            background-color: white;
+            color: gray;
+
+        }
+        .dislike-button:hover{
+            text-decoration: underline;
+        }
+        .comment-button{
+            border: none;
+            background-color: white;
+            float: right;
+            margin-right: 5px;
+            color: gray;
+
+        }
+        .comment-button:hover{
+            text-decoration: underline;
+        }
+        .div-comment{
+            width: 100%;
+        }
+        .titleTextDivComment{
+            margin-left: 10px;
+            font-weight: bold;
+
+        }
+        .itemImage{
+            width: 40px;
+            height: 40px;
+            border-radius: 25px;
+            float: left;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+        .divTextComment20{
+            border: none;
+            width: 200px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 50px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment20Admin{
+            border: none;
+            width: 200px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 75px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+
+        .divTextComment45{
+            border: none;
+            width: 340px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 50px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment45Admin{
+            border: none;
+            width: 340px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 75px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment65{
+            border: none;
+            width: 500px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 50px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment65Admin{
+            border: none;
+            width: 500px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 75px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment75{
+            border: none;
+            width: 600px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 50px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment75Admin{
+            border: none;
+            width: 600px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 75px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment90{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 50px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment90Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 75px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment180{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 80px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment180Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 105px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment270{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 105px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment270Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 130px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment360{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 130px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment360Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 155px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment450{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 155px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment450Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 180px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment540{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 180px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment540Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 205px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment630{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 205px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment630Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 230px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment720{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 230px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment720Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 255px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment810{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 255px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment810Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 280px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment900{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 280px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment900Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 305px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment990{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 305px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .divTextComment990Admin{
+            border: none;
+            width: 688px; /* Độ rộng tối đa của khung comment */
+            padding-left: 5px;
+            height: 330px;
+            border-radius: 20px;
+            margin-left: 52px;
+            background-color: #e1e1e5;
+            margin-top: 5px;
+
+        }
+        .commentNameUser{
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        .commentNameAdmin{
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        .divAction{
+            width: 350px;
+            margin-left: 55px;
+        }
+        .divCommentReply{
+            width: 550px;
+            margin-left: 55px;
+            height: 50px;
+            display: none;
+        }
+        .action-text{
+            border: none;
+            background: white;
+            font-size: 12px;
+            font-weight: bold;
+            color: gray;
+        }
+        .action-text-like2{
+            border: none;
+            background: white;
+            font-size: 12px;
+            font-weight: bold;
+            color: blue;
+            display: none;
+        }
+
+        .action-text:hover{
+            text-decoration: underline;
+        }
+        .action-text2:hover{
+            text-decoration: underline;
+        }
+
+        .time-text{
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        .like-com-text{
+            font-size: 12px;
+            margin-left: 5px;
+            border: none;
+            background-color: white;
+        }
+        .like-com-text:hover{
+            text-decoration: underline;
+        }
+        .div-input-comment {
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid gray;
+            margin-bottom: 10px;
+        }
+        .img-libra{
+            width: 40px;
+            height: 40px;
+            border-radius: 25px;
+            float: left;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+        .img-libra-reply{
+            width: 40px;
+            height: 40px;
+            border-radius: 25px;
+            float: left;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+        .div-input{
+
+        }
+        .input-comment{
+            width: 87%;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            background-color: #e1e1e5;
+            margin-left: 5px;
+            margin-top: 5px;
+
+        }
+        .sent-comment{
+            width: 40px;
+            height: 40px;
+            border-radius: 25px;
+            float: right;
+            margin-top: 5px;
+            border: none;
+            background-color: orange;
+            color: white;
+        }
+        .sent-comment:hover{
+            background-color: rgba(255, 69, 0, 0.77);
+        }
+        .input-comment-reply{
+            width: 82%;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            background-color: #e1e1e5;
+            margin-left: 5px;
+            margin-top: 5px;
+
+        }
+        .sent-comment-reply{
+            width: 40px;
+            height: 40px;
+            border-radius: 25px;
+            float: right;
+            margin-top: 5px;
+            border: none;
+            background-color: orange;
+            color: white;
+        }
+        .sent-comment-reply:hover{
+            background-color: rgba(255, 69, 0, 0.77);
+        }
+
+
+        .alert-dialog-member{
+            /* Thêm các thuộc tính CSS cho dialog */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 25%;
+            height: 50%;
+            max-height: 80%;
+            overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung vượt quá kích thước */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+        .text-title-head-member{
+            font-size: 22px;
+            text-align: center;
+            margin-left: 5px;
+            color: orangered;
+            font-family: "Barlow Condensed";
+
+        }
+        .close-button-member{
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 25px;
+            border: none;
+            float: right;
+            margin-right: 5px;
+            background-color: orange;
+            margin-bottom: 20px;
+
+        }
+        .close-button-member:hover{
+            background-color: orangered;
+        }
+
+        .div-content-member{
+            width: 100%;
+            height: 89%;
+        }
+
+        .item-div-member{
+            width: 100%;
+            height: 15%;
+            padding-top: 5px;
+        }
+
+        .image-item-member{
+            width: 40px;
+            height: 40px;
+            border: 1px solid gray;
+            float: left;
+            border-radius: 25px;
+            margin-top: -4px;
+        }
+
+        .name-item-member{
+            font-size: 20px;
+            margin-left: 5px;
+            color: black;
+            font-family: "Barlow Condensed";
+        }
+
+        .button-message-member{
+            width: 100px;
+            height: 30px;
+            border: none;
+            background-color: orange;
+            float: right;
+            border-radius: 10px;
+            color: white;
+            margin-right: 5px;
+
+        }
+        .button-message-member:hover{
+            background-color: orangered;
+        }
+    </style>
+</head>
+<body class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a style="margin-left: 20px; font-size: 23px; font-weight: bold" class="nav-link active" aria-current="page" href="/index">PolyLib
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/index">Trang chủ
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/member">Thành viên
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thống kê
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/top9BookBorrows">Thống kê top 9 sách mượn nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9BookSales">Thống kê top 9 sách bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9GoodsSales">Thống kê top 9 sản phẩm bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9Members">Thống kê top 9 thành viên hoạt động tích cực nhất</a></li>
+                        <li><a class="dropdown-item" href="/revenue">Thống kê doanh thu</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý tài khoản
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% if (librarian.statusAdmin === '1') {%>
+                            <li><a class="dropdown-item" href="/listLibrarian">Danh sách thủ thư</a></li>
+                            <li><a class="dropdown-item" href="/Librarian">Tạo tài khoản cho thủ thư</a></li>
+                        <% }%>
+                            <li><a class="dropdown-item" href="/rules">Điều khoản</a></li>
+                        <li><a class="dropdown-item" href="/changePassword">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="index/logout">Đăng xuất</a></li>
+
+                    </ul>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/notifications">Thông báo
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/repliesFromUser">Phản hồi từ người dùng
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-3" style="border-right: 1px solid gray;; height: 1400px">
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sách</h5>
+        <div class="list-group">
+            <a href="/BookCategory" class="list-group-item list-group-item-action">Loại Sách</a>
+            <a href="/Author" class="list-group-item list-group-item-action">Tác Giả </a>
+            <a href="/Book" class="list-group-item list-group-item-action">Sách</a>
+            <a href="/loanSlip" class="list-group-item list-group-item-action">Phiếu Mượn</a>
+            <a href="/salesSlip" class="list-group-item list-group-item-action">Phiếu Bán</a>
+        </div>
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sản phẩm</h5>
+        <div class="list-group">
+            <a href="/goodsCategory" class="list-group-item list-group-item-action">Loại Sản Phẩm</a>
+            <a href="/Goods" class="list-group-item list-group-item-action">Sản Phẩm </a>
+            <a href="/Bill" class="list-group-item list-group-item-action">Hóa Đơn</a>
+        </div>
+
+        <h5 style="margin-top: 20px">Thêm hàng hóa</h5>
+        <form action="goods/addGoods" method="post" enctype="multipart/form-data"onsubmit="return validateAndRedirect('add')">
+            <input class="input" id="inputName" name="name" type="text" placeholder="Enter name...">
+            <input class="input" id="inputPrice"  name="price" type="number" placeholder="Enter price...">
+            <select class="select" id="goodsCategory" name="goodsCategory">
+                <% dataGoodsCategory.forEach((category) => { %>
+                    <option value="<%= category._id %>"><%= category.name %></option>
+                <% }); %>
+            </select>
+            <input id="choose" type="file" name="imageGoods" multiple onchange="addImage(this)">
+            <img class="hiddenImageAdd" style="width: 240px;height: 240px; margin-top: 10px" id="ImageAdd" src="" alt="Current Image">
+            <br><br>
+            <input id="push" type="submit" value="Save" >
+        </form>
+
+        <h5 style="margin-top: 20px">Cập nhật hàng hóa </h5>
+        <form action="goods/updateGoods" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect('update')">
+            <input class="input" id="inputID" name="_id" type="hidden">
+            <input class="input" id="inputNameUpdate" name="name" type="text" placeholder="Enter name...">
+            <input class="input" id="inputPriceUpdate"  name="price" type="number" placeholder="Enter price...">
+            <select class="select" id="goodsCategoryUpdate" name="goodsCategory">
+                <% dataGoodsCategory.forEach((category) => { %>
+                    <option value="<%= category._id %>"><%= category.name %></option>
+                <% }); %>
+            </select>
+            <input id="choose" type="file" name="imageGoods" multiple onchange="updateCurrentImage(this)">
+            <img class="hiddenImage" style="width: 240px;height: 240px; margin-top: 10px" id="currentImageUpdate" src="" alt="Current Image">
+            <br><br>
+            <input id="push" type="submit" value="Update" >
+        </form>
+
+        <div style="height: 320px;background-color: #F8F9FA;;margin-top: 20px;border-radius: 10px">
+            <img style=" width: 100%; height: 50%;margin-top: 80px" src="uploads/image2.png">
+        </div>
+    </div>
+    <div class="col-9" style="height: 600px">
+        <h5>Danh sách hàng hóa</h5>
+        <div class="ListGoods" >
+            <% const member = dataMember %>
+            <% const librarians = dataLibrarian %>
+            <% const libra = librarian %>
+            <% const likeProduct = dataLikeProduct %>
+            <% data.forEach((goods) => { %>
+                <div class="itemGoods">
+                    <img class="imgGoods" src="<%= goods.image %>">
+                    <em class="itemTextFullName"><%= goods.name %></em>
+                    <br>
+                    <em class="itemText">Giá tiền: <%= (goods.price || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></em>
+                    <br>
+
+                    <% // Tìm goodsCategory tương ứng với ID
+                        const category = dataGoodsCategory.find(category => category._id.equals(goods.goodsCategory));
+                    if (category) { %>
+                        <em class="itemText">TL: <%= category.name %></em>
+                    <% } %>
+
+                    <button style="margin-left: 5px; margin-top: 5px; width: 95%" type="button" class="btn btn-warning" onclick="openAlertDialog(
+                    <%= JSON.stringify(goods)%>,
+                            `<%= category.name %>`,
+                    <%= JSON.stringify(member)%>,
+                    <%= JSON.stringify(librarians)%>,
+                    <%= JSON.stringify(libra)%>,
+                    <%= JSON.stringify(likeProduct)%>,
+                            )">Details</button>
+
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    function openAlertDialog(
+        dataGoods,
+        nameCategory,
+        dataMember,
+        dataLibrarian,
+        libra,
+        dataLikeProduct,
+    ) {
+        const alertDialog = document.createElement('div');
+        alertDialog.classList.add('alert-dialog');
+
+        const headWrapper = document.createElement('div');
+        headWrapper.classList.add('head-wrapper');
+
+
+        const textTitleHead = document.createElement('span')
+        textTitleHead.classList.add('text-title-head');
+        textTitleHead.textContent = 'Thông Tin Sản Phẩm';
+
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close-button');
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', closeAlertDialog);
+
+        // Tạo div lớn bao quanh các phần tử
+        const contentWrapper = document.createElement('div');
+        contentWrapper.classList.add('content-wrapper');
+
+        const content = document.createElement('div');
+        content.classList.add('content');
+
+        const buttons = document.createElement('div');
+        buttons.classList.add('buttons');
+
+        const image = document.createElement('img');
+        image.classList.add('alert-dialog-image');
+        image.src = `${dataGoods.image}`;
+
+        const name = document.createElement('div');
+        name.classList.add('alert-dialog-name');
+        name.textContent = `Tên sản phẩm: ${dataGoods.name}`;
+
+
+        const category = document.createElement('div');
+        category.classList.add('alert-dialog-category');
+        category.textContent = `Thể loại: ${nameCategory}`;
+
+        const price = document.createElement('div');
+        price.classList.add('alert-dialog-price');
+        price.textContent = `Giá bán : ${(dataGoods.price || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`;
+
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => confirmDelete(dataGoods._id));
+
+        const updateButton = document.createElement('button');
+        updateButton.classList.add('button');
+        updateButton.textContent = 'Update';
+        updateButton.addEventListener('click', () =>{
+            loadItemData(dataGoods);
+            closeAlertDialog();
+        });
+
+        const duongKeNgang = document.createElement('div');
+        duongKeNgang.classList.add('duongKeNgang');
+
+        const likeAndCommentDiv = document.createElement('div');
+        likeAndCommentDiv.classList.add('likeAndCommentDiv');
+
+
+        const likeGoods = dataLikeProduct.filter(like => like.goods === dataGoods._id);
+        // const dislikeGoods = dataDislikeProduct.filter(dislike => dislike.goods === dataGoods._id);
+
+        const likeButton = document.createElement('button');
+        likeButton.classList.add('like-button');
+        likeButton.textContent = likeGoods.length + ' lượt yêu thích';
+        likeButton.addEventListener('click',() => openDialogMember(likeGoods,dataMember,'1',dataGoods.name));
+
+        // const dislikeButton = document.createElement('button');
+        // dislikeButton.classList.add('dislike-button');
+        // dislikeButton.textContent =  dislikeGoods.length + ' lượt không thích';
+        // dislikeButton.addEventListener('click', () => openDialogMember(likeGoods,dislikeGoods,dataMember,'2',dataGoods.name));
+
+        // const com = comment.filter(com => com.goods === dataGoods._id)
+        // var rep1 = []
+        // var rep2 = []
+        // var rep3 = []
+        // var rep4 = []
+        // var rep5 = []
+        // var rep6 = []
+        // var rep7 = []
+        // var rep8 = []
+        // var rep9 = []
+        // var rep10 = []
+        //
+        // function countComment(com,rep,replies){
+        //     for (let i = 0 ; i < com.length ; i++){
+        //         for (let y = 0 ;y < replies.length ; y++){
+        //             if (com[i]._id === replies[y].comment ){
+        //                 rep.push(replies[y])
+        //             }
+        //         }
+        //     }
+        //     return rep
+        // }
+        // rep1 = countComment(com,rep1,replies)
+        // rep2 = countComment(rep1,rep2,replies)
+        // rep3 = countComment(rep2,rep3,replies)
+        // rep4 = countComment(rep3,rep4,replies)
+        // rep5 = countComment(rep4,rep5,replies)
+        // rep6 = countComment(rep5,rep6,replies)
+        // rep7 = countComment(rep6,rep7,replies)
+        // rep8 = countComment(rep7,rep8,replies)
+        // rep9 = countComment(rep8,rep9,replies)
+        // rep10 = countComment(rep9,rep10,replies)
+        //
+        //
+        // const totalComments = com.length + rep1.length + rep2.length + rep3.length + rep4.length
+        //     + rep5.length + rep6.length + rep7.length + rep8.length + rep9.length + rep10.length
+        //
+        //
+        // const commentButton = document.createElement('button');
+        // commentButton.classList.add('comment-button');
+        // commentButton.textContent = totalComments + ' bình luận';
+        //
+        //
+        // const divComment = document.createElement('div')
+        // divComment.classList.add('div-comment');
+        //
+        // const titleTextDivComment = document.createElement('span')
+        // titleTextDivComment.classList.add('titleTextDivComment');
+        // titleTextDivComment.textContent = 'Tất cả bình luận'
+        //
+        // // Tạo phần tử <div>
+        // const commentDiv = document.createElement('div');
+        // commentDiv.classList.add('div-comment-content');
+        //
+        //
+        // function renderReplies(comment,replies,member,librarian,comments,parentUl) {
+        //     const commentReplies = replies.filter(reply => comment._id === reply.comment);
+        //     if (commentReplies.length > 0) {
+        //         const ul = document.createElement('ul');
+        //
+        //         commentReplies.forEach((reply) => {
+        //             const memberComment = member.filter(mem => mem._id === reply.member)
+        //             const librarianComment = librarian.filter(li => li._id === reply.librarian)
+        //             const li = document.createElement('div');
+        //             const em = document.createElement('span');
+        //             li.appendChild(em);
+        //             ul.appendChild(li);
+        //             checkComment(memberComment,reply,ul,'1','2',comment.member,member,libra,dataLikeComment,dataMember,dataLibrarian)
+        //             checkComment(librarianComment,reply,ul,'2','2',comment.librarian,librarian,libra,dataLikeComment,dataMember,dataLibrarian)
+        //
+        //             // Gọi đệ quy cho các câu trả lời của câu trả lời
+        //             renderReplies(reply, replies,member,librarian,comments,ul);
+        //         });
+        //
+        //         if (parentUl) {
+        //             parentUl.appendChild(ul);
+        //         } else {
+        //             commentDiv.appendChild(ul);
+        //         }
+        //     }
+        // }
+        //
+        // // Lặp qua danh sách 'comment' và gọi hàm 'renderReplies' cho mỗi bình luận
+        // function renderComments(commentList, replies,member,librarian) {
+        //     const appear = commentList.filter(comment => comment.goods === dataGoods._id);
+        //
+        //     if (appear.length > 0){
+        //         appear.sort((a, b) => new Date(b.commentDate) - new Date(a.commentDate));
+        //         appear.forEach((comment) => {
+        //             const memberComment = member.filter(mem => mem._id === comment.member)
+        //             const librarianComment = librarian.filter(li => li._id === comment.librarian)
+        //             checkComment(memberComment,comment,commentDiv,'1','1',null,null,libra,dataLikeComment,dataMember,dataLibrarian)
+        //             checkComment(librarianComment,comment,commentDiv,'2','1',null,null,libra,dataLikeComment,dataMember,dataLibrarian)
+        //             renderReplies(comment,replies,member,librarian,appear);
+        //         });
+        //     }
+        // }
+        //
+        // // Gọi hàm 'renderComments' với danh sách 'comment' và 'replies'
+        // const commentList = comment;
+        // const repli = replies;
+        // const member = dataMember;
+        // const librarian = dataLibrarian;
+        // renderComments(commentList, repli,member,librarian);
+        //
+        // // Input viết comment
+        // const divInputComment = document.createElement('div')
+        // divInputComment.classList.add('div-input-comment')
+        // const imgLibra = document.createElement('img')
+        // imgLibra.classList.add('img-libra')
+        // imgLibra.src = libra.image
+        //
+        // const divInput = document.createElement('div')
+        // divInput.classList.add('div-input')
+        //
+        // const form = document.createElement('form');
+        // form.classList.add('form-comment')
+        // form.method = 'post'
+        // form.action= 'goods/addComment'
+        //
+        // const inputComment = document.createElement('input');
+        // inputComment.classList.add('input-comment');
+        // inputComment.placeholder = 'Viết bình luận...';
+        // inputComment.id = 'input-comment';
+        // inputComment.name = 'comment';
+        // inputComment.required
+        //
+        // const inputDate = document.createElement('input');
+        // inputDate.classList.add('input-date');
+        // inputDate.id = 'input-date';
+        // inputDate.name = 'date';
+        // inputDate.type = 'hidden';
+        // // Lấy ngày và giờ hiện tại
+        // const currentDate = new Date();
+        // const d = currentDate.toISOString();
+        // inputDate.value = d;
+        //
+        // const inputLibrarian = document.createElement('input');
+        // inputLibrarian.classList.add('input-librarian');
+        // inputLibrarian.id = 'input-librarian';
+        // inputLibrarian.name = 'librarian';
+        // inputLibrarian.type = 'hidden';
+        // inputLibrarian.value = libra._id;
+        //
+        // const inputGoods = document.createElement('input');
+        // inputGoods.classList.add('input-goods');
+        // inputGoods.id = 'input-goods';
+        // inputGoods.name = 'goods';
+        // inputGoods.type = 'hidden';
+        // inputGoods.value = dataGoods._id;
+        //
+        //
+        // const sent = document.createElement('input')
+        // sent.classList.add('sent-comment')
+        // sent.value = 'Sent'
+        // sent.type = 'Submit'
+        // form.appendChild(inputComment);
+        // form.appendChild(inputDate);
+        // form.appendChild(inputLibrarian);
+        // form.appendChild(inputGoods);
+        // form.appendChild(sent);
+        // divInput.appendChild(form)
+
+
+        content.appendChild(name);
+        content.appendChild(category);
+        content.appendChild(price);
+
+        // Thêm các phần tử vào div lớn
+
+        headWrapper.appendChild(closeButton)
+        headWrapper.appendChild(textTitleHead)
+        contentWrapper.appendChild(image);
+        contentWrapper.appendChild(content);
+
+        buttons.appendChild(deleteButton)
+        buttons.appendChild(updateButton)
+        likeAndCommentDiv.appendChild(likeButton)
+        //likeAndCommentDiv.appendChild(dislikeButton)
+        //likeAndCommentDiv.appendChild(commentButton)
+
+        // divInputComment.appendChild(imgLibra)
+        // divInputComment.appendChild(divInput)
+        // divComment.appendChild(divInputComment)
+        // divComment.appendChild(titleTextDivComment)
+        //divComment.appendChild(commentDiv)
+
+
+        // Thêm div lớn vào dialog
+        alertDialog.appendChild(headWrapper);
+        alertDialog.appendChild(contentWrapper);
+        alertDialog.appendChild(buttons);
+        alertDialog.appendChild(duongKeNgang);
+        alertDialog.appendChild(likeAndCommentDiv);
+        //alertDialog.appendChild(divComment);
+
+        document.body.appendChild(alertDialog);
+    }
+
+    function checkComment(data,comment,commentDiv,status,statusReply,userReply,dataUserReply,libra,dataLikeComment,dataMember,dataLibrarian){
+        const divTextComment = document.createElement('div')
+        if (data.length > 0){
+            data.forEach((item)=>{
+                if (comment.text.length <=25 && status !== '2'){
+                    divTextComment.classList.add('divTextComment20')
+                }else if (comment.text.length <=25 && status === '2'){
+                    divTextComment.classList.add('divTextComment20Admin')
+                }else if (comment.text.length <=45 && comment.text.length >=25 && status !== '2' ){
+                    divTextComment.classList.add('divTextComment45')
+                }else if (comment.text.length <=45 && comment.text.length >=25 && status === '2' ){
+                    divTextComment.classList.add('divTextComment45Admin')
+                }else if (comment.text.length <=65 && comment.text.length >=45 && status !== '2'){
+                    divTextComment.classList.add('divTextComment65')
+                }else if (comment.text.length <=65 && comment.text.length >=45 && status === '2'){
+                    divTextComment.classList.add('divTextComment65Admin')
+                }else if (comment.text.length <=75 && comment.text.length >=65 && status !== '2'){
+                    divTextComment.classList.add('divTextComment75')
+                }else if (comment.text.length <=75 && comment.text.length >=65 && status === '2'){
+                    divTextComment.classList.add('divTextComment75Admin')
+                }else if (comment.text.length <=90 && comment.text.length >=75 && status !== '2'){
+                    divTextComment.classList.add('divTextComment90')
+                }else if (comment.text.length <=90 && comment.text.length >=75 && status === '2'){
+                    divTextComment.classList.add('divTextComment90Admin')
+                }else if (comment.text.length <=180 && comment.text.length >=90 && status !== '2'){
+                    divTextComment.classList.add('divTextComment180')
+                }else if (comment.text.length <=180 && comment.text.length >=90 && status === '2'){
+                    divTextComment.classList.add('divTextComment180Admin')
+                }else if (comment.text.length <=270 && comment.text.length >=180 && status !== '2'){
+                    divTextComment.classList.add('divTextComment270')
+                }else if (comment.text.length <=270 && comment.text.length >=180 && status === '2'){
+                    divTextComment.classList.add('divTextComment270Admin')
+                }else if (comment.text.length <=360 && comment.text.length >=270 && status !== '2'){
+                    divTextComment.classList.add('divTextComment360')
+                }else if (comment.text.length <=360 && comment.text.length >=270 && status === '2'){
+                    divTextComment.classList.add('divTextComment360Admin')
+                }else if (comment.text.length <=450 && comment.text.length >=360 && status !== '2'){
+                    divTextComment.classList.add('divTextComment450')
+                }else if (comment.text.length <=450 && comment.text.length >=360 && status === '2'){
+                    divTextComment.classList.add('divTextComment450Admin')
+                }else if (comment.text.length <=540 && comment.text.length >=450 && status !== '2'){
+                    divTextComment.classList.add('divTextComment540')
+                }else if (comment.text.length <=540 && comment.text.length >=450 && status === '2'){
+                    divTextComment.classList.add('divTextComment540Admin')
+                }else if (comment.text.length <=630 && comment.text.length >=540 && status !== '2'){
+                    divTextComment.classList.add('divTextComment630')
+                }else if (comment.text.length <=630 && comment.text.length >=540 && status === '2'){
+                    divTextComment.classList.add('divTextComment630Admin')
+                }else if (comment.text.length <=720 && comment.text.length >=630 && status !== '2'){
+                    divTextComment.classList.add('divTextComment720')
+                }else if (comment.text.length <=720 && comment.text.length >=630 && status === '2'){
+                    divTextComment.classList.add('divTextComment720Admin')
+                }else if (comment.text.length <=810 && comment.text.length >=720 && status !== '2'){
+                    divTextComment.classList.add('divTextComment810')
+                }else if (comment.text.length <=810 && comment.text.length >=720 && status === '2'){
+                    divTextComment.classList.add('divTextComment810Admin')
+                }else if (comment.text.length <=900 && comment.text.length >=810 && status !== '2'){
+                    divTextComment.classList.add('divTextComment900')
+                }else if (comment.text.length <=900 && comment.text.length >=810 && status === '2'){
+                    divTextComment.classList.add('divTextComment900Admin')
+                }else if (comment.text.length <=990 && comment.text.length >=900 && status !== '2'){
+                    divTextComment.classList.add('divTextComment990')
+                }else if (comment.text.length <=990 && comment.text.length >=900 && status === '2'){
+                    divTextComment.classList.add('divTextComment990Admin')
+                }
+                const commentText = document.createElement('span');
+                const br1 = document.createElement('br');
+                const br2 = document.createElement('br');
+                const commentImage = document.createElement('img');
+                const commentNameUser = document.createElement('span');
+                commentText.classList.add('itemText');
+                commentImage.classList.add('itemImage');
+                commentNameUser.classList.add('commentNameUser');
+
+
+                commentText.textContent = comment.text;
+
+                commentImage.src = item.image;
+                const commentNameAdmin = document.createElement('em');
+                if (status === '1'){
+                    commentNameUser.textContent = item.fullName;
+                }
+                if (status === '2') {
+                    commentNameAdmin.classList.add('commentNameAdmin');
+                    if (item.statusAdmin === '1'){
+                        commentNameAdmin.textContent = 'Admin'
+                    }else {
+                        commentNameAdmin.textContent = 'Thủ thư'
+                    }
+                    commentNameUser.textContent = item.fullname;
+                }
+                divTextComment.appendChild(commentNameAdmin)
+                if (status === '2'){
+                    divTextComment.appendChild(br1)
+                }
+
+
+                // Input viết comment
+                const divCommentReply = document.createElement('div')
+                divCommentReply.classList.add('divCommentReply')
+
+                const imgLibra = document.createElement('img')
+                imgLibra.classList.add('img-libra-reply')
+                imgLibra.src = libra.image
+
+                const divInput = document.createElement('div')
+                divInput.classList.add('div-input-reply')
+
+                const form = document.createElement('form');
+                form.classList.add('form-comment')
+                form.method = 'post'
+                form.action= 'goods/addReply'
+
+                const inputComment = document.createElement('input');
+                inputComment.classList.add('input-comment-reply');
+                inputComment.placeholder = 'Viết bình luận phản hồi...';
+                inputComment.id = 'input-comment';
+                inputComment.name = 'comment';
+
+
+                const inputDate = document.createElement('input');
+                inputDate.classList.add('input-date');
+                inputDate.id = 'input-date';
+                inputDate.name = 'date';
+                inputDate.type = 'hidden';
+                // Lấy ngày và giờ hiện tại
+                const currentDate = new Date();
+                const d = currentDate.toISOString();
+                inputDate.value = d;
+
+                const inputLibrarian = document.createElement('input');
+                inputLibrarian.classList.add('input-librarian');
+                inputLibrarian.id = 'input-librarian';
+                inputLibrarian.name = 'librarian';
+                inputLibrarian.type = 'hidden';
+                inputLibrarian.value = libra._id;
+
+                const inputCommentId = document.createElement('input');
+                inputCommentId.classList.add('input-book');
+                inputCommentId.id = 'input-book';
+                inputCommentId.name = 'commentReply';
+                inputCommentId.type = 'hidden';
+                inputCommentId.value = comment._id;
+
+
+                const sent = document.createElement('input')
+                sent.classList.add('sent-comment-reply')
+                sent.value = 'Sent'
+                sent.type = 'Submit'
+                form.appendChild(inputComment);
+                form.appendChild(inputDate);
+                form.appendChild(inputLibrarian);
+                form.appendChild(inputCommentId);
+                form.appendChild(sent);
+                divInput.appendChild(form)
+                divCommentReply.appendChild(imgLibra)
+                divCommentReply.appendChild(divInput)
+
+                const divAction = document.createElement('div')
+                divAction.classList.add('divAction')
+
+
+                const likeAction = document.createElement('button');
+                likeAction.classList.add('action-text');
+                likeAction.textContent = 'Thích';
+
+                let isLiked = false;
+                let li = []
+
+                for (let i = 0 ; i < dataLikeComment.length ; i ++){
+                    if (libra._id === dataLikeComment[i].librarian){
+                        li.push(dataLikeComment[i])
+                    }
+                }
+
+                var idLikeCom = '';
+
+                for (let i = 0 ; i < li.length ; i ++){
+                    if (statusReply === '1'){
+                        if (comment._id === li[i].comment){
+                            isLiked = true
+                            //console.log(li[i]._id)
+                            //console.log(isLiked)
+                            idLikeCom = li[i]._id;
+                            likeAction.style.color = 'blue';
+                        }
+                    }else {
+                        if (comment._id === li[i].reply){
+                            isLiked = true
+                            //console.log(li[i]._id)
+                            idLikeCom = li[i]._id;
+                            //console.log(isLiked)
+                            likeAction.style.color = 'blue';
+                        }
+                    }
+
+                }
+                let cmt;
+                let statusCom;
+                if (statusReply === '1'){
+                    cmt = comment._id
+                    statusCom = '1'
+                }else {
+                    cmt = comment._id
+                    statusCom = '2'
+                }
+
+                likeAction.addEventListener('click', function() {
+                    if (!isLiked) {
+                        // Gửi yêu cầu POST để thêm lượt thích
+                        fetch('goods/addLike', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ librarian: libra._id, cmt:cmt, member: '', status : statusCom }),
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                }
+                                throw new Error('Lỗi khi thêm like');
+                            })
+                            .then(data => {
+                                // Xử lý phản hồi từ server (nếu cần)
+                                console.log('Thêm like thành công', data);
+                                likeAction.style.color = 'blue';
+                                isLiked = true;
+                                console.log(isLiked)
+                            })
+                            .catch(error => {
+                                console.error('Lỗi:', error);
+                            });
+                    } else {
+                        likeAction.style.color = 'gray';
+                        isLiked = false;
+                        window.location.href = "goods/deleteLikeComment/?_id=" + idLikeCom;
+                        console.log(idLikeCom)
+                    }
+                });
+
+                const replyAction = document.createElement('button')
+                replyAction.classList.add('action-text')
+                replyAction.textContent = 'Phản hồi'
+                replyAction.addEventListener('click', function() {
+                    divCommentReply.style.display = 'block';
+
+                });
+                const time = document.createElement('span')
+                time.classList.add('time-text')
+                var formattedTime;
+                if (statusReply === '1'){
+                    formattedTime = formatDateDiff(comment.commentDate);
+                }else {
+                    formattedTime = formatDateDiff(comment.replyDate);
+                }
+                time.textContent = formattedTime;
+
+                var likeCom = document.createElement('button')
+                if (statusReply === '1'){
+                    const like = dataLikeComment.filter(data => data.comment === comment._id)
+                    likeCom.classList.add('like-com-text')
+                    likeCom.textContent = like.length + ' lượt thích'
+                    likeCom.addEventListener('click',() => openDialogMemberLikeCom(dataLikeComment,dataMember,dataLibrarian,like,'1'));
+                }else {
+                    const like = dataLikeComment.filter(data => data.reply === comment._id)
+                    likeCom.classList.add('like-com-text')
+                    likeCom.textContent = like.length + ' lượt thích'
+                    likeCom.addEventListener('click',() => openDialogMemberLikeCom(dataLikeComment,dataMember,dataLibrarian,like,'2'));
+                }
+                divTextComment.appendChild(commentNameUser)
+                divTextComment.appendChild(br2)
+                divTextComment.appendChild(commentText)
+                divAction.appendChild(likeAction)
+                divAction.appendChild(replyAction)
+                divAction.appendChild(time)
+                divAction.appendChild(likeCom)
+
+                commentDiv.appendChild(commentImage);
+                commentDiv.appendChild(divTextComment);
+                commentDiv.appendChild(divAction);
+                commentDiv.appendChild(divCommentReply);
+            })
+        }
+    }
+
+    function openDialogMember(like,members,status,nameGoods){
+        const alertDialog = document.createElement('div');
+        alertDialog.classList.add('alert-dialog-member');
+
+        const headWrapper = document.createElement('div');
+        headWrapper.classList.add('head-wrapper');
+
+        var goodsNameNew = '';
+        if (nameGoods.length > 20) {
+            goodsNameNew = nameGoods.slice(0, 20) + '...';
+        }else{
+            goodsNameNew = nameGoods;
+        }
+        const textTitleHead = document.createElement('span')
+        textTitleHead.classList.add('text-title-head-member');
+        if (status === '1'){
+            textTitleHead.textContent = like.length + ' lượt thích ' + '"' + goodsNameNew + '"';
+        }
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close-button-member');
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', closeAlertDialogMember);
+
+        var content;
+        var itemMember;
+        var member;
+        var imageMember;
+        var nameMember;
+        var buttonMessage;
+
+        if (status === '1'){
+            content = document.createElement('div');
+            content.classList.add('div-content-member');
+            like.forEach((like)=>{
+
+                itemMember = document.createElement('div');
+                itemMember.classList.add('item-div-member');
+
+                member = members.find(mem => mem._id === like.member);
+
+                imageMember = document.createElement('img');
+                imageMember.classList.add('image-item-member');
+                imageMember.src = member.image;
+
+                nameMember = document.createElement('span');
+                nameMember.classList.add('name-item-member');
+                nameMember.textContent = member.fullName;
+
+                // buttonMessage = document.createElement('button');
+                // buttonMessage.classList.add('button-message-member');
+                // buttonMessage.textContent = 'Nhắn tin';
+
+                itemMember.appendChild(imageMember);
+                itemMember.appendChild(nameMember);
+                //itemMember.appendChild(buttonMessage);
+
+                content.appendChild(itemMember);
+            })
+
+        }
+        // else {
+        //     content = document.createElement('div');
+        //     content.classList.add('div-content-member');
+        //     dislike.forEach((dislike)=>{
+        //
+        //         itemMember = document.createElement('div');
+        //         itemMember.classList.add('item-div-member');
+        //
+        //         member = members.find(mem => mem._id === dislike.member);
+        //
+        //         imageMember = document.createElement('img');
+        //         imageMember.classList.add('image-item-member');
+        //         imageMember.src = member.image;
+        //
+        //         nameMember = document.createElement('span');
+        //         nameMember.classList.add('name-item-member');
+        //         nameMember.textContent = member.fullName;
+        //
+        //         // buttonMessage = document.createElement('button');
+        //         // buttonMessage.classList.add('button-message-member');
+        //         // buttonMessage.textContent = 'Nhắn tin';
+        //
+        //         itemMember.appendChild(imageMember);
+        //         itemMember.appendChild(nameMember);
+        //         //itemMember.appendChild(buttonMessage);
+        //         content.appendChild(itemMember);
+        //     })
+        // }
+
+
+        headWrapper.appendChild(textTitleHead)
+        headWrapper.appendChild(closeButton)
+
+        alertDialog.appendChild(headWrapper)
+        alertDialog.appendChild(content)
+
+
+        document.body.appendChild(alertDialog);
+    }
+
+    function openDialogMemberLikeCom(dataLikeComment,members,librarians,like,status){
+        const alertDialog = document.createElement('div');
+        alertDialog.classList.add('alert-dialog-member');
+
+        const headWrapper = document.createElement('div');
+        headWrapper.classList.add('head-wrapper');
+
+
+        const textTitleHead = document.createElement('span')
+        textTitleHead.classList.add('text-title-head-member');
+        if (status === '1'){
+            textTitleHead.textContent = like.length + ' lượt thích bình luận này';
+        }else {
+            textTitleHead.textContent = like.length + ' lượt thích bình luận này';
+        }
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close-button-member');
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', closeAlertDialogMember);
+
+        var content;
+        var itemMember;
+        var member;
+        var libra;
+        var imageMember;
+        var nameMember;
+        var buttonMessage;
+
+        content = document.createElement('div');
+        content.classList.add('div-content-member');
+        like.forEach((like)=>{
+
+            itemMember = document.createElement('div');
+            itemMember.classList.add('item-div-member');
+
+            member = members.find(mem => mem._id === like.member);
+            libra = librarians.find(libra => libra._id === like.librarian);
+
+
+
+            imageMember = document.createElement('img');
+            imageMember.classList.add('image-item-member');
+            if (like.member === ''){
+                imageMember.src = libra.image;
+            }else {
+                imageMember.src = member.image;
+            }
+
+            nameMember = document.createElement('span');
+            nameMember.classList.add('name-item-member');
+
+            if (like.member === ''){
+                nameMember.textContent = libra.fullname;
+            }else {
+                nameMember.textContent = member.fullName;
+            }
+
+
+            buttonMessage = document.createElement('button');
+            buttonMessage.classList.add('button-message-member');
+            buttonMessage.textContent = 'Nhắn tin';
+
+            itemMember.appendChild(imageMember);
+            itemMember.appendChild(nameMember);
+            itemMember.appendChild(buttonMessage);
+
+            content.appendChild(itemMember);
+        })
+
+
+
+        headWrapper.appendChild(textTitleHead)
+        headWrapper.appendChild(closeButton)
+
+        alertDialog.appendChild(headWrapper)
+        alertDialog.appendChild(content)
+
+
+        document.body.appendChild(alertDialog);
+    }
+
+    function formatDate(dateText){
+        if (dateText) {
+            // Chuyển đổi từ chuỗi ISO 8601 sang định dạng yyyy-MM-dd
+            var date = new Date(dateText);
+            var day = date.getDate().toString().padStart(2, '0'); // Ngày
+            var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (đánh số từ 0 - 11)
+            var year = date.getFullYear(); // Năm
+            var formattedDateBorrow = `${day}-${month}-${year}`;
+        }
+        return formattedDateBorrow
+    }
+    function formatDateTrue(dateText){
+        if (dateText) {
+            // Chuyển đổi từ chuỗi ISO 8601 sang định dạng yyyy-MM-dd
+            var date = new Date(dateText);
+            var day = date.getDate().toString().padStart(2, '0'); // Ngày
+            var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (đánh số từ 0 - 11)
+            var year = date.getFullYear(); // Năm
+            var formattedDateBorrow = `${year}-${month}-${day}`;
+        }
+        return formattedDateBorrow
+    }
+
+    function formatDateDiff(commentDate) {
+        const currentDate = new Date();
+        const commentDateObj = new Date(commentDate);
+
+        const timeDifference = currentDate - commentDateObj;
+        const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+
+        if (hoursDifference >= 24 && hoursDifference <= 72) {
+            const daysDifference = Math.floor(hoursDifference / 24);
+            return daysDifference + ' ngày';
+        }else if (hoursDifference > 72){
+            return formatDate(commentDate);
+        } else if (hoursDifference === 0){
+            return 'Vừa xong';
+        }
+        else {
+            return hoursDifference + ' giờ';
+        }
+    }
+
+
+
+    function loadItemData(goodsData) {
+        console.log(goodsData)
+        // Lấy các trường input
+        var input_id = document.getElementById('inputID');
+        var input_name = document.getElementById('inputNameUpdate');
+        var input_price = document.getElementById('inputPriceUpdate');
+        var input_category = document.getElementById('goodsCategoryUpdate');
+        var currentImage = document.getElementById('currentImageUpdate');
+        // Gán dữ liệu của member vào các trường input
+        input_id.value = goodsData._id;
+        input_name.value = goodsData.name;
+        input_price.value = goodsData.price;
+        currentImage.src = goodsData.image;
+
+        for (var i = 0; i < input_category.options.length; i++) {
+            if (input_category.options[i].value === goodsData.goodsCategory) {
+                input_category.options[i].selected = true;
+                break;
+            }
+        }
+
+        if (goodsData.image) {
+            currentImage.classList.remove('hiddenImage');
+            currentImage.classList.add('visibleImage');
+            currentImage.src = goodsData.image;
+        } else {
+            currentImage.classList.remove('visibleImage');
+            currentImage.classList.add('hiddenImage');
+        }
+    }
+    function confirmDelete(_id) {
+        var result = confirm("Bạn có chắc muốn xóa hàng hóa này không?");
+        if (result) {
+            window.location.href = "goods/delete/?_id=" + _id;
+        }
+    }
+    function closeAlertDialog() {
+        const alertDialog = document.querySelector('.alert-dialog');
+        if (alertDialog) {
+            document.body.removeChild(alertDialog);
+
+        }
+    }
+    function closeAlertDialogMember() {
+        const alertDialog = document.querySelector('.alert-dialog-member');
+        if (alertDialog) {
+            document.body.removeChild(alertDialog);
+
+        }
+    }
+    function updateCurrentImage(input) {
+        var currentImage = document.getElementById('currentImageUpdate');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                currentImage.src = e.target.result;
+                currentImage.classList.remove('hiddenImage');
+                currentImage.classList.add('visibleImage');
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            currentImage.classList.remove('visibleImage');
+            currentImage.classList.add('hiddenImage');
+        }
+    }
+    function addImage(input) {
+        var ImageAdd = document.getElementById('ImageAdd');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                ImageAdd.src = e.target.result;
+                ImageAdd.classList.remove('hiddenImageAdd');
+                ImageAdd.classList.add('visibleImageAdd');
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            ImageAdd.classList.remove('visibleImageAdd');
+            ImageAdd.classList.add('hiddenImageAdd');
+        }
+    }
+
+    function validateAndRedirect(status) {
+        var name;
+        var price;
+        var image;
+        if (status==='add'){
+            name = document.getElementById('inputName').value;
+            price = document.getElementById('inputPrice').value;
+            image = document.getElementById('choose').files[0];
+
+
+            if (name.length === 0 || price.length === 0 || !image) {
+                alert('Vui lòng điền đầy đủ thông tin và chọn ảnh!');
+                return false
+            }
+        }else if (status==='update') {
+            name = document.getElementById('inputNameUpdate').value;
+            price = document.getElementById('inputPriceUpdate').value;
+
+            if (name.length === 0 || price.length === 0) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return false
+            }
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</html>

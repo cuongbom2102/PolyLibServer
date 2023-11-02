@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyLib</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            width: 80%;
+            margin-left: 130px;
+        }
+        .row{
+            width: 80%;
+            margin-left: 130px;
+            margin-top: 20px;
+        }
+        .date{
+            margin-top: 20px;
+        }
+        .input{
+            width: 370px;
+            height: 40px;
+            padding-left: 10px;
+            border-radius: 10px;
+            background-color: #F8F9FA;
+            border: none;
+        }
+        #btn-revenue{
+            width: 185px;
+            height: 40px;
+            border-radius: 5px;
+            border: none;
+            background-color: orange;
+            color: white;
+
+            margin-top: 20px;
+        }
+        #btn-revenue:hover{
+            background-color: orangered;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        .alert-dialog {
+            /* Thêm các thuộc tính CSS cho dialog */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 50%;
+            max-height: 80%;
+            overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung vượt quá kích thước */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+        .close-button{
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 25px;
+            border: none;
+            float: left;
+            background-color: orange;
+        }
+        .close-button:hover{
+            background-color: orangered;
+        }
+        .alert-dialog-image{
+            width: 20%;
+            height: 200px;
+            margin-top: 20px;
+        }
+        .head-wrapper{
+            width: 100%;
+            height: 40px;
+            padding-top: 5px;
+            border-bottom: 1px solid gray;
+        }
+        .text-title-head{
+            font-size: 22px;
+            text-align: center;
+            margin-left: 280px;
+            color: orangered;
+            font-family: "Barlow Condensed";
+
+        }
+        .image-container{
+            margin-left: 10px;
+        }
+        .text-wrapper{
+            margin-left: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .alert-dialog-text{
+            font-size: 16px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a style="margin-left: 20px; font-size: 23px; font-weight: bold" class="nav-link active" aria-current="page" href="/index">PolyLib
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/index">Trang chủ
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/member">Thành viên
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thống kê
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/top9BookBorrows">Thống kê top 9 sách mượn nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9BookSales">Thống kê top 9 sách bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9GoodsSales">Thống kê top 9 sản phẩm bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9Members">Thống kê top 9 thành viên hoạt động tích cực nhất</a></li>
+                        <li><a class="dropdown-item" href="/revenue">Thống kê doanh thu</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý tài khoản
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% if (librarian.statusAdmin === '1') {%>
+                            <li><a class="dropdown-item" href="/listLibrarian">Danh sách thủ thư</a></li>
+                            <li><a class="dropdown-item" href="/Librarian">Tạo tài khoản cho thủ thư</a></li>
+                        <% }%>
+                            <li><a class="dropdown-item" href="/rules">Điều khoản</a></li>
+                        <li><a class="dropdown-item" href="/changePassword">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="index/logout">Đăng xuất</a></li>
+
+                    </ul>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/notifications">Thông báo
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/repliesFromUser">Phản hồi từ người dùng
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-3" style="border-right: 1px solid gray;; height: 770px">
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sách</h5>
+        <div class="list-group">
+            <a href="/BookCategory" class="list-group-item list-group-item-action">Loại Sách</a>
+            <a href="/Author" class="list-group-item list-group-item-action">Tác Giả </a>
+            <a href="/Book" class="list-group-item list-group-item-action">Sách</a>
+            <a href="/loanSlip" class="list-group-item list-group-item-action">Phiếu Mượn</a>
+            <a href="/salesSlip" class="list-group-item list-group-item-action">Phiếu Bán</a>
+        </div>
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sản phẩm</h5>
+        <div class="list-group">
+            <a href="/goodsCategory" class="list-group-item list-group-item-action">Loại Sản Phẩm</a>
+            <a href="/Goods" class="list-group-item list-group-item-action">Sản Phẩm </a>
+            <a href="/Bill" class="list-group-item list-group-item-action">Hóa Đơn</a>
+        </div>
+
+        <div style="height: 320px;background-color: #F8F9FA;;margin-top: 20px;border-radius: 10px">
+            <img style=" width: 100%; height: 50%;margin-top: 80px" src="uploads/image2.png">
+        </div>
+
+    </div>
+    <% var loanSlip = dataLoanSlip %>
+    <% var salesSlip = dataSalesSlip %>
+    <% var bill = dataBill %>
+    <% var memberData = dataMember %>
+    <% var librarian = dataLibrarian %>
+    <% var book = dataBook %>
+    <% var goods = dataGoods %>
+    <div class="col-9" style=" height: 540px">
+        <h5>Hãy nhập ngày bạn muốn để thống kê doanh thu</h5>
+        <div class="date">
+            <input class="input" id="inputDateStart" name="birthday" type="date" placeholder="Enter date start...">
+            <input class="input" id="inputDateEnd" name="birthday" type="date" placeholder="Enter date end...">
+        </div>
+
+
+            <button id="btn-revenue" onclick="totalRevenue(<%= JSON.stringify(salesSlip) %>,<%= JSON.stringify(bill) %>,<%= JSON.stringify(loanSlip) %>,<%= JSON.stringify(memberData)%>,<%= JSON.stringify(librarian)%>,<%= JSON.stringify(book)%>,<%= JSON.stringify(goods)%>,'0')">Doanh thu sách mượn</button>
+            <button id="btn-revenue" onclick="totalRevenue(<%= JSON.stringify(salesSlip) %>,<%= JSON.stringify(bill) %>,<%= JSON.stringify(loanSlip) %>,<%= JSON.stringify(memberData)%>,<%= JSON.stringify(librarian)%>,<%= JSON.stringify(book)%>,<%= JSON.stringify(goods)%>,'1')">Doanh thu sách bán</button>
+            <button id="btn-revenue" onclick="totalRevenue(<%= JSON.stringify(salesSlip) %>,<%= JSON.stringify(bill) %>,<%= JSON.stringify(loanSlip) %>,<%= JSON.stringify(memberData)%>,<%= JSON.stringify(librarian)%>,<%= JSON.stringify(book)%>,<%= JSON.stringify(goods)%>,'2')">Doanh thu SP bán</button>
+            <button id="btn-revenue" onclick="totalRevenue(<%= JSON.stringify(salesSlip) %>,<%= JSON.stringify(bill) %>,<%= JSON.stringify(loanSlip) %>,<%= JSON.stringify(memberData)%>,<%= JSON.stringify(librarian)%>,<%= JSON.stringify(book)%>,<%= JSON.stringify(goods)%>,'3')">Tổng doanh thu</button>
+
+
+
+        <div id="table" style="margin-top: 20px"></div>
+
+
+
+    </div>
+</div>
+</body>
+
+
+<script>
+    const {del} = require("express/lib/application");
+
+    function totalRevenue(salesSlip,bill,loanSlip,dataMember,librarian,book,goods,status){
+
+        const startDate = new Date(document.getElementById("inputDateStart").value);
+        const endDate = new Date(document.getElementById("inputDateEnd").value);
+
+        if (startDate.toString() === "Invalid Date" || endDate.toString() === "Invalid Date") {
+            alert('Vui lòng chọn ngày hợp lệ!');
+            return;
+        } else if (endDate < startDate) {
+            alert('Vui lòng chọn ngày kết thúc lớn hơn ngày bắt đầu!');
+            return;
+        }
+        var table;
+        const filteredLoanSlip = loanSlip.filter(item => formatDate(item.borrowDate) >= formatDate(startDate) && formatDate(item.borrowDate) <= formatDate(endDate));
+        const filteredSalesSlip = salesSlip.filter(item => formatDate(item.salesDate) >= formatDate(startDate) && formatDate(item.salesDate) <= formatDate(endDate));
+        const filteredBill = bill.filter(item => formatDate(item.billDate) >= formatDate(startDate) && formatDate(item.billDate) <= formatDate(endDate));
+        const totalLoanSlipAmount = filteredLoanSlip.reduce((total, item) => total + item.total, 0);
+        const totalSalesSlipAmount = filteredSalesSlip.reduce((total, item) => total + item.total, 0);
+        const totalBillAmount = filteredBill.reduce((total, item) => total + item.total, 0);
+        const totalRevenue = totalLoanSlipAmount + totalSalesSlipAmount + totalBillAmount;
+
+
+        if (status==='0'){
+            table = document.getElementById("table");
+            let tableHTML = `
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                <th>STT</th>
+                <th>Thành viên</th>
+                <th>SL Sách</th>
+                <th>Thời hạn</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+
+            </tr>
+            </thead>
+            <tbody>
+    `;
+            filteredLoanSlip.forEach((item, index) => {
+
+                const member = dataMember.find(member => member._id === item.member);
+                const nameLibrarian = librarian.find(librarian => librarian._id === item.librarian);
+                var imageBooks = []; // Mảng để lưu ảnh của các sách
+                var textNameBooks = []; // Mang lưu tên sách
+                for (var i = 0; i < book.length; i++) {
+                    for (var y = 0; y < item.book.length; y++) { // Thay đổi loanSlip.book thành item.book
+                        if (book[i]._id === item.book[y]) {
+                            imageBooks.push(book[i].image);
+                            textNameBooks.push(book[i].name)
+                        }
+                    }
+                }
+                const imageBooksJson = JSON.stringify(imageBooks);
+                const encodedImageBooksJson = encodeURIComponent(imageBooksJson);
+                const textNameBooksJson = JSON.stringify(textNameBooks);
+                const encodedTextNameBooksJson = encodeURIComponent(textNameBooksJson);
+                const currentDate = new Date();
+                const dueDate = new Date(item.dueDate);
+                var statusText = '';
+                const timeDiff = dueDate - currentDate;
+                const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+                if (daysDiff <= 0) {
+                    statusText = 'Hết hạn'
+                }else if (daysDiff <= 7) {
+                    statusText = 'Sắp hết hạn'
+                }else {
+                    statusText = 'Còn hạn'
+                }
+                tableHTML += `
+            <tr style="border-bottom: 1px solid #ccc;">
+                <td>${index + 1}</td>
+                <td>${member ? member.fullName : ''}</td>
+                <td>${item.book.length} cuốn sách</td>
+                <td>${item.duration} tháng</td>
+                <td>${(item.total || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                <td>${statusText}</td>
+                <td>
+<button style="margin-left: 5px; margin-top: 5px; width: 95%" type="button" class="btn btn-warning" onclick="showDetails(
+    '${encodedImageBooksJson}','${encodedTextNameBooksJson}','${nameLibrarian.fullname}','${member.fullName}','${item.borrowDate}',
+    '${item.duration}','${item.dueDate}','${item.total}','${item.status}','0','${item.deliveryLocation}','${item.transportFee}','${item.price}')">Details</button>
+               </td>
+            </tr>
+
+        `;
+
+            });
+            tableHTML += `
+        <tr>
+            <td style="color: red"> ${filteredLoanSlip.length+1}</td>
+            <td style="color: red">Tổng tiền</td>
+            <td></td>
+            <td></td>
+            <td style="color:red">
+                ${(totalLoanSlipAmount || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+         `;
+            tableHTML += `
+            </tbody>
+        </table>
+    `;
+            table.innerHTML = tableHTML;
+        }else if (status === '1'){
+
+
+            table = document.getElementById("table");
+            let tableHTML = `
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                <th>STT</th>
+                <th>Thành viên</th>
+                <th>SL Sách</th>
+                <th>Ngày mua</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+
+            </tr>
+            </thead>
+            <tbody>
+    `;
+            filteredSalesSlip.forEach((item, index) => {
+
+
+                const member = dataMember.find(member => member._id === item.member);
+                const nameLibrarian = librarian.find(librarian => librarian._id === item.librarian);
+                var imageBooks = []; // Mảng để lưu ảnh của các sách
+                var textNameBooks = []; // Mang lưu tên sách
+                for (var i = 0; i < book.length; i++) {
+                    for (var y = 0; y < item.book.length; y++) { // Thay đổi loanSlip.book thành item.book
+                        if (book[i]._id === item.book[y]) {
+                            imageBooks.push(book[i].image);
+                            textNameBooks.push(book[i].name)
+                        }
+                    }
+                }
+                const imageBooksJson = JSON.stringify(imageBooks);
+                const encodedImageBooksJson = encodeURIComponent(imageBooksJson);
+                const textNameBooksJson = JSON.stringify(textNameBooks);
+                const encodedTextNameBooksJson = encodeURIComponent(textNameBooksJson);
+                var statusText;
+                if (item.status === '1') {
+                    statusText = 'Đã thanh toán'
+                }else {
+                    statusText = 'Chưa thanh toán'
+                }
+                tableHTML += `
+            <tr style="border-bottom: 1px solid #ccc;">
+                <td>${index + 1}</td>
+                <td>${member ? member.fullName : ''}</td>
+                <td>${item.book.length} cuốn sách</td>
+                <td>${formatDateTable(item.salesDate)}</td>
+                <td>${(item.total || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                <td>${statusText}</td>
+                <td>
+                    <button style="margin-left: 5px; margin-top: 5px; width: 95%" type="button" class="btn btn-warning" onclick="showDetails(
+    '${encodedImageBooksJson}','${encodedTextNameBooksJson}','${nameLibrarian.fullname}','${member.fullName}','${item.salesDate}',
+    null,null,'${item.total}','${item.status}','1','${item.deliveryLocation}','${item.transportFee}','${item.price}')">Details</button>
+                </td>
+            </tr>
+
+        `;
+
+            });
+            tableHTML += `
+        <tr>
+            <td style="color: red"> ${filteredSalesSlip.length+1}</td>
+            <td style="color: red">Tổng tiền</td>
+            <td></td>
+            <td></td>
+            <td style="color:red">
+                ${(totalSalesSlipAmount || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+         `;
+            tableHTML += `
+            </tbody>
+        </table>
+    `;
+            table.innerHTML = tableHTML;
+
+
+        }else if (status === '2'){
+            table = document.getElementById("table");
+            let tableHTML = `
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                <th>STT</th>
+                <th>Thành viên</th>
+                <th>SL Sản Phẩm</th>
+                <th>Ngày mua</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+
+            </tr>
+            </thead>
+            <tbody>
+    `;
+            filteredBill.forEach((item, index) => {
+                const member = dataMember.find(member => member._id === item.member);
+                const nameLibrarian = librarian.find(librarian => librarian._id === item.librarian);
+                var imageGoods = []; // Mảng để lưu ảnh của các sản phẩm
+                var textNameGoods = []; // Mang lưu tên sách
+                for (var i = 0; i < goods.length; i++) {
+                    for (var y = 0; y < item.goods.length; y++) { // Thay đổi loanSlip.book thành item.book
+                        if (goods[i]._id === item.goods[y]) {
+                            imageGoods.push(goods[i].image);
+                            textNameGoods.push(goods[i].name)
+                        }
+                    }
+                }
+                const imageGoodsJson = JSON.stringify(imageGoods);
+                const encodedImageGoodsJson = encodeURIComponent(imageGoodsJson);
+                const textNameGoodsJson = JSON.stringify(textNameGoods);
+                const encodedTextNameGoodsJson = encodeURIComponent(textNameGoodsJson);
+                var statusText;
+                if (item.status === '1') {
+                    statusText = 'Đã thanh toán'
+                }else {
+                    statusText = 'Chưa thanh toán'
+                }
+                tableHTML += `
+            <tr style="border-bottom: 1px solid #ccc;">
+                <td>${index + 1}</td>
+                <td>${member ? member.fullName : ''}</td>
+                <td>${item.goods.length} sản phẩm</td>
+                <td>${formatDateTable(item.billDate)}</td>
+                <td>${(item.total || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                <td>${statusText}</td>
+                <td>
+                    <button style="margin-left: 5px; margin-top: 5px; width: 95%" type="button" class="btn btn-warning" onclick="showDetails(
+    '${encodedImageGoodsJson}','${encodedTextNameGoodsJson}','${nameLibrarian.fullname}','${member.fullName}','${item.billDate}',
+    null,null,'${item.total}','${item.status}','2','${item.deliveryLocation}','${item.transportFee}','${item.price}')">Details</button>
+                </td>
+            </tr>
+
+        `;
+
+            });
+            tableHTML += `
+        <tr>
+            <td style="color: red"> ${filteredBill.length+1}</td>
+            <td style="color: red">Tổng tiền</td>
+            <td></td>
+            <td></td>
+            <td style="color:red">
+                ${(totalBillAmount || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+         `;
+            tableHTML += `
+            </tbody>
+        </table>
+    `;
+            table.innerHTML = tableHTML;
+        }else {
+            table = document.getElementById("table");
+            let tableHTML = `
+        <table style="width: 100%; border-collapse: collapse;">
+
+            <tbody>
+    `;
+                tableHTML += `
+            <tr style="border-bottom: 1px solid #ccc;">
+                <td>Doanh thu sách mượn</td>
+                <td>${(totalLoanSlipAmount || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ccc;">
+                <td>Doanh thu sách bán</td>
+                <td>${(totalSalesSlipAmount || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ccc;">
+                <td>Doanh thu sản phẩm bán</td>
+                <td>${(totalBillAmount || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ccc;">
+                <td style="color: red">Tổng doanh thu</td>
+                <td style="color: red">${(totalRevenue || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+            </tr>
+        `;
+
+            tableHTML += `
+            </tbody>
+        </table>
+    `;
+            table.innerHTML = tableHTML;
+        }
+
+
+
+    }
+    function formatDate(dateText) {
+        let formattedDateBorrow = ""; // Khai báo ở ngoài phạm vi if
+
+        if (dateText) {
+            // Chuyển đổi từ chuỗi ISO 8601 sang định dạng yyyy-MM-dd
+            var date = new Date(dateText);
+            var day = date.getDate().toString().padStart(2, '0'); // Ngày
+            var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (đánh số từ 0 - 11)
+            var year = date.getFullYear(); // Năm
+            formattedDateBorrow = `${year}-${month}-${day}`; // Gán giá trị cho biến
+        }
+
+        return formattedDateBorrow; // Trả về giá trị ở cuối hàm
+    }
+    function formatDateTable(dateText) {
+        let formattedDateBorrow = ""; // Khai báo ở ngoài phạm vi if
+
+        if (dateText) {
+            // Chuyển đổi từ chuỗi ISO 8601 sang định dạng yyyy-MM-dd
+            var date = new Date(dateText);
+            var day = date.getDate().toString().padStart(2, '0'); // Ngày
+            var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (đánh số từ 0 - 11)
+            var year = date.getFullYear(); // Năm
+            formattedDateBorrow = `${day}-${month}-${year}`; // Gán giá trị cho biến
+        }
+
+        return formattedDateBorrow; // Trả về giá trị ở cuối hàm
+    }
+
+    function showDetails(encodedImageBooksJson,encodedTextNameBooksJson,librarian,member,date,duration,dueDate,total,status,statusB,deliveryLocation,transportFee,price) {
+        const imageBooksJson = decodeURIComponent(encodedImageBooksJson);
+        const imageBooks = JSON.parse(imageBooksJson);
+        const textNameBooksJson = decodeURIComponent(encodedTextNameBooksJson);
+        const textNameBooks = JSON.parse(textNameBooksJson);
+        const textTitleHead = document.createElement('span');
+        const dateText = document.createElement('div');
+        const dueDateText = document.createElement('div');
+        const durationText = document.createElement('div');
+        const statusText = document.createElement('div');
+        var textNameContainer = document.createElement('div');
+
+
+        const alertDialog = document.createElement('div');
+        alertDialog.classList.add('alert-dialog');
+
+        const headWrapper = document.createElement('div');
+        headWrapper.classList.add('head-wrapper');
+
+        if (statusB === '0'){
+            textTitleHead.classList.add('text-title-head');
+            textTitleHead.textContent = 'Thông Tin Phiếu Mượn';
+        }else if (statusB === '1') {
+            textTitleHead.classList.add('text-title-head');
+            textTitleHead.textContent = 'Thông Tin Phiếu Bán';
+        }else {
+            textTitleHead.classList.add('text-title-head');
+            textTitleHead.textContent = 'Thông Tin Hóa Đơn';
+        }
+
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close-button');
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', closeAlertDialog);
+
+        // Tạo div lớn bao quanh các phần tử
+        const imageWrapper = document.createElement('div');
+        imageWrapper.classList.add('image-wrapper');
+
+
+        const textWrapper = document.createElement('div');
+        textWrapper.classList.add('text-wrapper');
+
+        var imageContainer = document.createElement('div');
+        imageContainer.classList.add('image-container');
+        for (var a = 0; a < imageBooks.length; a++) {
+            const image = document.createElement('img');
+            image.classList.add('alert-dialog-image');
+            image.src = imageBooks[a];
+            imageContainer.appendChild(image);
+        }
+
+        if (statusB === '0' || statusB === '1'){
+            const titleTextName = document.createElement('span');
+            titleTextName.classList.add('alert-dialog-text');
+            titleTextName.textContent = `Sách: `;
+            textNameContainer.appendChild(titleTextName);
+        }else {
+            const titleTextName = document.createElement('span');
+            titleTextName.classList.add('alert-dialog-text');
+            titleTextName.textContent = `Sản phẩm: `;
+            textNameContainer.appendChild(titleTextName);
+        }
+
+
+        for (var c = 0; c < textNameBooks.length; c++) {
+            const textNameBook = document.createElement('span');
+            textNameBook.classList.add('alert-dialog-text');
+            textNameBook.textContent = textNameBooks[c];
+            textNameContainer.appendChild(textNameBook);
+
+            // Thêm dấu phẩy nếu không phải là sách cuối cùng
+            if (c < textNameBooks.length - 1) {
+                const comma = document.createElement('span');
+                comma.textContent = ', ';
+                textNameContainer.appendChild(comma);
+            }
+        }
+
+
+        const librarianText = document.createElement('div');
+        librarianText.classList.add('alert-dialog-text');
+        librarianText.textContent = `Thủ thư: ${librarian}`;
+        const memberText = document.createElement('div');
+        memberText.classList.add('alert-dialog-text');
+        memberText.textContent = `Thành viên : ${member}`;
+
+
+
+        if (statusB === '0'){
+            dateText.classList.add('alert-dialog-text');
+            dateText.textContent = `Ngày mượn : ${formatDateTable(date)}`;
+        }else {
+            dateText.classList.add('alert-dialog-text');
+            dateText.textContent = `Ngày mua : ${formatDateTable(date)}`;
+        }
+
+
+        if (dueDate){
+            dueDateText.classList.add('alert-dialog-text');
+            dueDateText.textContent = `Ngày trả : ${formatDateTable(dueDate)}`;
+        }
+
+        if (duration){
+            durationText.classList.add('alert-dialog-text');
+            durationText.textContent = `Thời hạn : ${duration} tháng`;
+        }
+
+        const deliveryLocationText = document.createElement('div');
+        deliveryLocationText.classList.add('alert-dialog-text');
+        deliveryLocationText.textContent = `Địa chỉ nhận hàng : ${deliveryLocation}`;
+
+
+        const priceText = document.createElement('div');
+        priceText.classList.add('alert-dialog-text');
+        priceText.textContent = `Giá tiền : ${(price || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`;
+        const feeText = document.createElement('div');
+        feeText.classList.add('alert-dialog-text');
+        feeText.textContent = `Phí vận chuyển : ${(transportFee || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`;
+
+        const totalText = document.createElement('div');
+        totalText.classList.add('alert-dialog-text');
+        totalText.textContent = `Tổng tiền : ${(total || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`;
+
+        var staTus = '';
+        if (statusB === '0'){
+
+            if (status==='1'){
+                staTus='Đã trả sách';
+            }else {
+                staTus='Chưa trả sách';
+            }
+            statusText.classList.add('alert-dialog-text');
+            statusText.textContent = `Trạng thái : ${staTus}`;
+        }else {
+            if (status==='1'){
+                staTus='Đã thanh toán';
+            }else {
+                staTus='Chưa thanh toán';
+            }
+            statusText.classList.add('alert-dialog-text');
+            statusText.textContent = `Trạng thái : ${staTus}`;
+        }
+
+
+
+
+        headWrapper.appendChild(closeButton)
+        headWrapper.appendChild(textTitleHead)
+        textWrapper.appendChild(librarianText)
+        textWrapper.appendChild(memberText)
+        textWrapper.appendChild(textNameContainer)
+        textWrapper.appendChild(dateText)
+        textWrapper.appendChild(durationText)
+        textWrapper.appendChild(dueDateText)
+        textWrapper.appendChild(deliveryLocationText)
+        textWrapper.appendChild(priceText)
+        textWrapper.appendChild(feeText)
+        textWrapper.appendChild(totalText)
+        textWrapper.appendChild(statusText)
+
+
+        // Thêm div lớn vào dialog
+        alertDialog.appendChild(headWrapper);
+        alertDialog.appendChild(imageWrapper);
+        alertDialog.appendChild(imageContainer);
+        alertDialog.appendChild(textWrapper)
+
+
+        document.body.appendChild(alertDialog);
+    }
+
+    function closeAlertDialog() {
+        const alertDialog = document.querySelector('.alert-dialog');
+        if (alertDialog) {
+            document.body.removeChild(alertDialog);
+
+        }
+    }
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</html>

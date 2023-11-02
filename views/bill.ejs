@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyLib</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            width: 80%;
+            margin-left: 130px;
+        }
+        .row{
+            width: 80%;
+            margin-left: 130px;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .status-blue {
+            color: blue;
+        }
+
+        .status-red {
+            color: red;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            background-color: orange;
+            color: white;
+        }
+
+        .action-button + .action-button {
+            margin-left: 5px;
+        }
+        .alert-dialog {
+            /* Thêm các thuộc tính CSS cho dialog */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 50%;
+            max-height: 80%;
+            overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung vượt quá kích thước */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+        .close-button{
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 25px;
+            border: none;
+            float: left;
+            background-color: orange;
+        }
+        .close-button:hover{
+            background-color: orangered;
+        }
+        .alert-dialog-image{
+            width: 20%;
+            height: 200px;
+            margin-top: 20px;
+        }
+        .head-wrapper{
+            width: 100%;
+            height: 40px;
+            padding-top: 5px;
+            border-bottom: 1px solid gray;
+        }
+        .text-title-head{
+            font-size: 22px;
+            text-align: center;
+            margin-left: 280px;
+            color: orangered;
+            font-family: "Barlow Condensed";
+
+        }
+        .image-container{
+            margin-left: 10px;
+        }
+        .text-wrapper{
+            margin-left: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .alert-dialog-text{
+            font-size: 16px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a style="margin-left: 20px; font-size: 23px; font-weight: bold" class="nav-link active" aria-current="page" href="/index">PolyLib
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/index">Trang chủ
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/member">Thành viên
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thống kê
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/top9BookBorrows">Thống kê top 9 sách mượn nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9BookSales">Thống kê top 9 sách bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9GoodsSales">Thống kê top 9 sản phẩm bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9Members">Thống kê top 9 thành viên hoạt động tích cực nhất</a></li>
+                        <li><a class="dropdown-item" href="/revenue">Thống kê doanh thu</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý tài khoản
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% if (librarian.statusAdmin === '1') {%>
+                            <li><a class="dropdown-item" href="/listLibrarian">Danh sách thủ thư</a></li>
+                            <li><a class="dropdown-item" href="/Librarian">Tạo tài khoản cho thủ thư</a></li>
+                        <% }%>
+                        <li><a class="dropdown-item" href="/rules">Điều khoản</a></li>
+                        <li><a class="dropdown-item" href="/changePassword">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="index/logout">Đăng xuất</a></li>
+
+                    </ul>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/notifications">Thông báo
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/repliesFromUser">Phản hồi từ người dùng
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-3" style="border-right: 1px solid gray;; height: 770px">
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sách</h5>
+        <div class="list-group">
+            <a href="/BookCategory" class="list-group-item list-group-item-action">Loại Sách</a>
+            <a href="/Author" class="list-group-item list-group-item-action">Tác Giả </a>
+            <a href="/Book" class="list-group-item list-group-item-action">Sách</a>
+            <a href="/loanSlip" class="list-group-item list-group-item-action">Phiếu Mượn</a>
+            <a href="/salesSlip" class="list-group-item list-group-item-action">Phiếu Bán</a>
+        </div>
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sản phẩm</h5>
+        <div class="list-group">
+            <a href="/goodsCategory" class="list-group-item list-group-item-action">Loại Sản Phẩm</a>
+            <a href="/Goods" class="list-group-item list-group-item-action">Sản Phẩm </a>
+            <a href="/Bill" class="list-group-item list-group-item-action">Hóa Đơn</a>
+        </div>
+
+        <div style="height: 320px;background-color: #F8F9FA;;margin-top: 20px;border-radius: 10px">
+            <img style=" width: 100%; height: 50%;margin-top: 80px" src="uploads/image2.png">
+        </div>
+
+
+    </div>
+    <div class="col-9" style="height: 600px">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>Thành viên</th>
+                <th>SL Sản phẩm</th>
+                <th>Ngày mua</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <% var stt = 1%>
+            <% const goods = dataGoods%>
+            <% const librarians = dataLibrarian%>
+            <% const dataAddress = deliveryAddress%>
+            <% data.forEach((bill) => { %>
+                <tr style="border-bottom: 1px solid #ccc;">
+                    <td><%= stt %></td>
+                    <td>
+                        <% const member = dataMember.find(member => member._id.equals(bill.member)); %>
+                        <% if (member) { %>
+                            <%= member.fullName %>
+                        <% } %>
+                    </td>
+                    <td>
+                        <%= bill.goods.length %> sản phẩm
+                    </td>
+                    <td>
+
+                        <% if (bill.billDate) { %>
+                            <% var date = new Date(bill.billDate); %>
+                            <% var day = date.getDate().toString().padStart(2, '0'); %>
+                            <% var month = (date.getMonth() + 1).toString().padStart(2, '0');%>
+                            <% var year = date.getFullYear(); %>
+                            <% var formattedDateBorrow = `${day}-${month}-${year}`; %>
+                        <%}%>
+                        <%= formattedDateBorrow %>
+                    </td>
+                    <td><%= (bill.total || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+                    <td>
+                        <% if (bill.status === '1') { %>
+                            <span style="color: blue">Tiền mặt </span>
+                        <% } else { %>
+                            <span style="color: red">Chuyển khoản</span>
+                        <% } %>
+                    </td>
+
+                    <td>
+                        <button style="margin-left: 5px; margin-top: 5px; width: 95%" type="button" class="btn btn-warning" onclick="openAlertDialog(<%= JSON.stringify(bill) %>,<%= JSON.stringify(librarians) %>,`<%= member.fullName %>`,<%= JSON.stringify(goods)%>,<%= JSON.stringify(dataAddress) %>)">Details</button>
+                    </td>
+                </tr>
+                <% stt++ %>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script>
+    function openAlertDialog(bill,librarians,member,goods,dataAddress) {
+        const alertDialog = document.createElement('div');
+        alertDialog.classList.add('alert-dialog');
+
+        const headWrapper = document.createElement('div');
+        headWrapper.classList.add('head-wrapper');
+
+        const textTitleHead = document.createElement('span')
+        textTitleHead.classList.add('text-title-head');
+        textTitleHead.textContent = 'Thông Tin Hóa Đơn';
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close-button');
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', closeAlertDialog);
+
+        // Tạo div lớn bao quanh các phần tử
+        const imageWrapper = document.createElement('div');
+        imageWrapper.classList.add('image-wrapper');
+
+
+        const textWrapper = document.createElement('div');
+        textWrapper.classList.add('text-wrapper');
+
+        var imageGoods = []; // Mảng để lưu ảnh của các sách
+        var textNameGoodses = []; // Mang lưu tên sách
+        for (var i = 0; i < goods.length; i++) {
+            for (var y = 0; y < bill.goods.length; y++) {
+                if (goods[i]._id === bill.goods[y]) {
+                    imageGoods.push(goods[i].image); // Thêm ảnh vào mảng
+                    textNameGoodses.push(goods[i].name)
+                }
+            }
+        }
+        var imageContainer = document.createElement('div');
+        imageContainer.classList.add('image-container');
+        for (var a = 0; a < imageGoods.length; a++) {
+            const image = document.createElement('img');
+            image.classList.add('alert-dialog-image');
+            image.src = imageGoods[a];
+            imageContainer.appendChild(image);
+        }
+        var textNameGoodsContainer = document.createElement('div');
+        const titleTextNameGoods = document.createElement('span');
+        titleTextNameGoods.classList.add('alert-dialog-text');
+        titleTextNameGoods.textContent = `Sản phẩm: `;
+        textNameGoodsContainer.appendChild(titleTextNameGoods);
+
+        for (var c = 0; c < textNameGoodses.length; c++) {
+            const textNameGoods = document.createElement('span');
+            textNameGoods.classList.add('alert-dialog-text');
+            textNameGoods.textContent = textNameGoodses[c];
+            textNameGoodsContainer.appendChild(textNameGoods);
+
+            // Thêm dấu phẩy nếu không phải là sách cuối cùng
+            if (c < textNameGoodses.length - 1) {
+                const comma = document.createElement('span');
+                comma.textContent = ', ';
+                textNameGoodsContainer.appendChild(comma);
+            }
+        }
+
+
+        var librarian = '';
+        for (var b = 0; b < librarians.length; b++) {
+            if (librarians[b]._id === bill.librarian){
+                librarian = librarians[b].fullname;
+                break;
+            }
+        }
+
+        const librarianText = document.createElement('div');
+        librarianText.classList.add('alert-dialog-text');
+        librarianText.textContent = `Thủ thư: ${librarian}`;
+        const memberText = document.createElement('div');
+        memberText.classList.add('alert-dialog-text');
+        memberText.textContent = `Thành viên : ${member}`;
+
+
+        const billDateText = document.createElement('div');
+        billDateText.classList.add('alert-dialog-text');
+        billDateText.textContent = `Ngày mua : ${formatDate(bill.billDate)}`;
+
+
+        const address = dataAddress.find(add => add._id === (bill.deliveryAddress))
+
+        const deliveryLocationText = document.createElement('div');
+        deliveryLocationText.classList.add('alert-dialog-text');
+        deliveryLocationText.textContent = `Địa chỉ nhận hàng : ${address.nameAddress}`;
+
+        const priceText = document.createElement('div');
+        priceText.classList.add('alert-dialog-text');
+        priceText.textContent = `Giá tiền : ${(bill.price || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`;
+
+        const feeText = document.createElement('div');
+        feeText.classList.add('alert-dialog-text');
+        feeText.textContent = `Phí vận chuyển : ${(bill.transportFee || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`;
+
+        const totalText = document.createElement('div');
+        totalText.classList.add('alert-dialog-text');
+        totalText.textContent = `Tổng tiền : ${(bill.total || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`;
+
+        const statusText = document.createElement('div');
+        var staTus = '';
+        if (bill.status==='1'){
+            staTus='Thanh toán bằng tiền mặt';
+        }else {
+            staTus='Thanh toán bằng tài khoản';
+        }
+        statusText.classList.add('alert-dialog-text');
+        statusText.textContent = `Trạng thái : ${staTus}`;
+
+
+
+        headWrapper.appendChild(closeButton)
+        headWrapper.appendChild(textTitleHead)
+        textWrapper.appendChild(librarianText)
+        textWrapper.appendChild(memberText)
+        textWrapper.appendChild(textNameGoodsContainer)
+        textWrapper.appendChild(billDateText)
+        textWrapper.appendChild(deliveryLocationText)
+        textWrapper.appendChild(priceText)
+        textWrapper.appendChild(feeText)
+        textWrapper.appendChild(totalText)
+        textWrapper.appendChild(statusText)
+
+
+        // Thêm div lớn vào dialog
+        alertDialog.appendChild(headWrapper);
+        alertDialog.appendChild(imageWrapper);
+        alertDialog.appendChild(imageContainer);
+        alertDialog.appendChild(textWrapper)
+
+
+        document.body.appendChild(alertDialog);
+    }
+
+    function closeAlertDialog() {
+        const alertDialog = document.querySelector('.alert-dialog');
+        if (alertDialog) {
+            document.body.removeChild(alertDialog);
+
+        }
+    }
+
+    function formatDate(dateText){
+        if (dateText) {
+            // Chuyển đổi từ chuỗi ISO 8601 sang định dạng yyyy-MM-dd
+            var date = new Date(dateText);
+            var day = date.getDate().toString().padStart(2, '0'); // Ngày
+            var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng (đánh số từ 0 - 11)
+            var year = date.getFullYear(); // Năm
+            var formattedDateBorrow = `${day}-${month}-${year}`;
+        }
+        return formattedDateBorrow
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</html>

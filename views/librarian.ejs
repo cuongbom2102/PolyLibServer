@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyLib</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            width: 80%;
+            margin-left: 130px;
+        }
+        .row{
+            width: 80%;
+            margin-left: 130px;
+            margin-top: 20px;
+        }
+
+        .input{
+            width: 400px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 20px;
+            margin-left: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #ffffff;
+        }
+        .col-4{
+            border-right: 1px solid gray;
+
+        }
+        #choose{
+            width: 300px;
+            margin-left: 10px;
+            margin-top: 20px;
+        }
+        #push{
+            width: 400px;
+            height: 40px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: orange;
+            color: white;
+        }
+        #push:hover{
+            background-color: orangered;
+        }
+        #description{
+            width: 300px;
+            margin-left: 10px;
+            border-radius: 10px;
+        }
+        .button:hover{
+            background-color: orangered;
+        }
+
+        #button{
+            width: 400px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 20px;
+            margin-left: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: rgba(243, 145, 104, 0.77);
+            color: white;
+        }
+        #button:hover{
+            background-color: orangered;
+        }
+        .hiddenImage {
+            display: none;
+        }
+        .hiddenImageAdd {
+            display: none;
+        }
+
+        .visibleImage {
+            display: block;
+        }
+        .visibleImageAdd {
+            display: block;
+        }
+    </style>
+</head>
+<body class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a style="margin-left: 20px; font-size: 23px; font-weight: bold" class="nav-link active" aria-current="page" href="/index">PolyLib
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/index">Trang chủ
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/member">Thành viên
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thống kê
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/top9BookBorrows">Thống kê top 9 sách mượn nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9BookSales">Thống kê top 9 sách bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9GoodsSales">Thống kê top 9 sản phẩm bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9Members">Thống kê top 9 thành viên hoạt động tích cực nhất</a></li>
+                        <li><a class="dropdown-item" href="/revenue">Thống kê doanh thu</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý tài khoản
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% if (librarian.statusAdmin === '1') {%>
+                            <li><a class="dropdown-item" href="/listLibrarian">Danh sách thủ thư</a></li>
+                            <li><a class="dropdown-item" href="/Librarian">Tạo tài khoản cho thủ thư</a></li>
+                        <% }%>
+                            <li><a class="dropdown-item" href="/rules">Điều khoản</a></li>
+                        <li><a class="dropdown-item" href="/changePassword">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="index/logout">Đăng xuất</a></li>
+
+                    </ul>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/notifications">Thông báo
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/repliesFromUser">Phản hồi từ người dùng
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-3" style="border-right: 1px solid gray;; height: 540px">
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sách</h5>
+        <div class="list-group">
+            <a href="/BookCategory" class="list-group-item list-group-item-action">Loại Sách</a>
+            <a href="/Author" class="list-group-item list-group-item-action">Tác Giả </a>
+            <a href="/Book" class="list-group-item list-group-item-action">Sách</a>
+            <a href="/loanSlip" class="list-group-item list-group-item-action">Phiếu Mượn</a>
+            <a href="/salesSlip" class="list-group-item list-group-item-action">Phiếu Bán</a>
+        </div>
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sản phẩm</h5>
+        <div class="list-group">
+            <a href="/goodsCategory" class="list-group-item list-group-item-action">Loại Sản Phẩm</a>
+            <a href="/Goods" class="list-group-item list-group-item-action">Sản Phẩm </a>
+            <a href="/Bill" class="list-group-item list-group-item-action">Hóa Đơn</a>
+        </div>
+
+
+
+
+    </div>
+    <div class="col-9" style=" height: 540px">
+        <div class="container" style="width: 100%; height: 540px; background-color: #F8F9FA; border-radius: 20px">
+            <div class="row" style="width: 100%;height: 100%;margin-left: -24px" >
+                <div class="col-5" style="height: 100%">
+                    <img style="border-top-left-radius: 20px; border-bottom-left-radius: 20px; width: 100%; height: 100%; object-fit: cover;" src="https://images.unsplash.com/photo-1630343710506-89f8b9f21d31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cmVhZGluZyUyMGJvb2t8ZW58MHx8MHx8fDA%3D&w=1000&q=80">
+                </div>
+                <div class="col-7" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px ; height: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;margin: 0;">
+                    <h2 style="color: orangered">Create an account librarian</h2>
+                    <form action="librarian/addLibrarian" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect(<%= JSON.stringify(data) %>)">
+                        <input class="input" id="inputFullName" name="fullname" type="text" placeholder="Enter fullname...">
+                        <input class="input" id="inputUsername" name="username" type="text" placeholder="Enter username...">
+                        <input class="input" id="inputPassword" name="password" type="text" placeholder="Enter password...">
+
+                        <label style="margin-left: 10px;margin-top: 15px">
+                            <input type="radio" name="statusAdmin" value="admin"> Admin
+                        </label>
+                        <label style="margin-left: 10px;margin-top: 15px">
+                            <input type="radio" name="statusAdmin" value="librarian"> Thủ thư
+                        </label>
+                        <input id="choose" type="file" name="imageLibrarian" multiple onchange="addImage(this)">
+                        <img class="hiddenImageAdd" style="width: 100px;height: 100px;object-position: center center;margin-left: 150px; margin-top: 10px;margin-bottom: -30px" id="ImageAdd" src="" alt="Current Image">
+                        <br><br>
+                        <input id="push" type="submit" value="Save" >
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script>
+    function loadItemData(librarianData) {
+        // Lấy các trường input
+        var inputID = document.getElementById('inputID');
+        var inputFullname = document.getElementById('inputFullname');
+        var inputUsername = document.getElementById('inputUsername');
+        var inputPassword = document.getElementById('inputPassword');
+        var radioAdmin = document.getElementById('radioAdmin');
+        var radioLibrarian = document.getElementById('radioLibrarian');
+
+
+        // Gán dữ liệu của member vào các trường input
+        inputFullname.value = librarianData.fullname;
+        inputID.value = librarianData._id;
+        inputUsername.value = librarianData.username;
+        inputPassword.value = librarianData.password;
+
+        if (librarianData.statusAdmin === '1'){
+            radioAdmin.checked = true;
+        }else if (librarianData.statusAdmin === '0'){
+            radioLibrarian.checked = true;
+        }
+
+    }
+    function addImage(input) {
+        var ImageAdd = document.getElementById('ImageAdd');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                ImageAdd.src = e.target.result;
+                ImageAdd.classList.remove('hiddenImageAdd');
+                ImageAdd.classList.add('visibleImageAdd');
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            ImageAdd.classList.remove('visibleImageAdd');
+            ImageAdd.classList.add('hiddenImageAdd');
+        }
+    }
+
+    function validateAndRedirect(data) {
+        var fullName = document.getElementById('inputFullName').value;
+        var username = document.getElementById('inputUsername').value;
+        var password = document.getElementById('inputPassword').value;
+        var foundMatch = false;
+        var count = 0;
+        if (fullName.length === 0 || username.length === 0 || password.length === 0) {
+            alert('Các trường dữ liệu không được để trống!');
+            return false
+        }
+
+        for (var i = 0; i < data.length; i++) {
+            if (username === data[i].username) {
+                count++;
+            }
+        }
+
+        if (count>0){
+            alert('Username đã được sử dụng!')
+            return false;
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</html>

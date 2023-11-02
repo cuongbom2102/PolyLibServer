@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyLib</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            width: 80%;
+            margin-left: 130px;
+        }
+        .row{
+            width: 80%;
+            margin-left: 130px;
+            margin-top: 20px;
+        }
+
+        .input{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+
+        #choose{
+            width: 300px;
+            margin-top: 20px;
+        }
+        #push{
+            width: 200px;
+            height: 40px;
+            margin-left: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: orange;
+            color: white;
+        }
+        #push:hover{
+            background-color: orangered;
+        }
+        .hiddenImage {
+            display: none;
+        }
+        .hiddenImageAdd {
+            display: none;
+        }
+
+        .visibleImage {
+            display: block;
+        }
+        .visibleImageAdd {
+            display: block;
+        }
+        .ListLibrarian{
+            grid-area: ListLibrarian;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .itemLibrarian{
+            width: 200px;
+            height: 340px;
+            background-color: #e0dfdf;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .itemTextFullName{
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        .imgLibrarian{
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            width: 100%; height: 60%;
+            object-fit: cover;margin-bottom: 5px
+        }
+        .itemText{
+            margin-left: 5px;
+        }
+        #buttonDelUp{
+            margin-left: 5px;
+            margin-top: 5px;
+            width: 45%;
+            height: 40px;
+        }
+    </style>
+</head>
+<body class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a style="margin-left: 20px; font-size: 23px; font-weight: bold" class="nav-link active" aria-current="page" href="/index">PolyLib
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/index">Trang chủ
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/member">Thành viên
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thống kê
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/top9BookBorrows">Thống kê top 9 sách mượn nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9BookSales">Thống kê top 9 sách bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9GoodsSales">Thống kê top 9 sản phẩm bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9Members">Thống kê top 9 thành viên hoạt động tích cực nhất</a></li>
+                        <li><a class="dropdown-item" href="/revenue">Thống kê doanh thu</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý tài khoản
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% if (librarian.statusAdmin === '1') {%>
+                            <li><a class="dropdown-item" href="/listLibrarian">Danh sách thủ thư</a></li>
+                            <li><a class="dropdown-item" href="/Librarian">Tạo tài khoản cho thủ thư</a></li>
+                        <% }%>
+                            <li><a class="dropdown-item" href="/rules">Điều khoản</a></li>
+                        <li><a class="dropdown-item" href="/changePassword">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="index/logout">Đăng xuất</a></li>
+
+                    </ul>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/notifications">Thông báo
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/repliesFromUser">Phản hồi từ người dùng
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-3" style="border-right: 1px solid gray;; height: 770px">
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sách</h5>
+        <div class="list-group">
+            <a href="/BookCategory" class="list-group-item list-group-item-action">Loại Sách</a>
+            <a href="/Author" class="list-group-item list-group-item-action">Tác Giả </a>
+            <a href="/Book" class="list-group-item list-group-item-action">Sách</a>
+            <a href="/loanSlip" class="list-group-item list-group-item-action">Phiếu Mượn</a>
+            <a href="/salesSlip" class="list-group-item list-group-item-action">Phiếu Bán</a>
+        </div>
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sản phẩm</h5>
+        <div class="list-group">
+            <a href="/goodsCategory" class="list-group-item list-group-item-action">Loại Sản Phẩm</a>
+            <a href="/Goods" class="list-group-item list-group-item-action">Sản Phẩm </a>
+            <a href="/Bill" class="list-group-item list-group-item-action">Hóa Đơn</a>
+        </div>
+
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Cập nhật thủ thư</h5>
+        <form action="listLibrarian/updateLibrarian" method="post" enctype="multipart/form-data">
+            <input class="input" id="inputID"  name="_id" type="hidden">
+            <input class="input" id="inputFullname" name="fullName" type="text" placeholder="Enter full name...">
+            <input class="input" id="inputUsername" name="username" type="text" placeholder="Enter username...">
+            <input class="input" id="inputPassword" name="password" type="text" placeholder="Enter password...">
+            <label style="margin-left: 10px;margin-top: 15px">
+                <input type="radio" name="status" id="radioAdmin" value="admin"> Admin
+            </label>
+            <label style="margin-left: 10px;margin-top: 15px">
+                <input type="radio" name="status" id="radioLibrarian" value="librarian"> Thủ thư
+            </label>
+            <input id="choose" type="file" name="imageLibrarian" multiple onchange="updateCurrentImage(this)">
+            <img class="hiddenImage" style="width: 240px;height: 240px; margin-top: 10px" id="currentImage" src="" alt="Current Image">
+            <br><br>
+            <input id="push" type="submit" value="Update" >
+        </form>
+
+
+    </div>
+    <div class="col-9" style=" height: 540px">
+        <h5>Danh sách thủ thư</h5>
+        <div class="ListLibrarian" >
+            <% data.forEach((librarian) => { %>
+                <div class="itemLibrarian">
+                    <img class="imgLibrarian" src="<%= librarian.image %>">
+                    <em class="itemTextFullName"><%= librarian.fullname %></em>
+                    <br>
+                    <em class="itemText">TĐN: <%= librarian.username %></em>
+                    <br>
+                    <% if (librarian.statusAdmin === '1') {%>
+                        <em class="itemText">Trạng thái: Admin</em>
+                    <% }else {%>
+                        <em class="itemText">Trạng thái: Thủ thư</em>
+                    <% }%>
+
+                    <div class="btn">
+                        <button id="buttonDelUp" type="button" class="btn btn-warning" onclick="confirmDelete('<%= librarian._id %>')">Delete</button>
+                        <button id="buttonDelUp" type="button" class="btn btn-warning" onclick="loadItemData(<%= JSON.stringify(librarian) %>)">Update</button>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script>
+    function loadItemData(librarianData) {
+
+        // Lấy các trường input
+        var inputID = document.getElementById('inputID');
+        var inputFullname = document.getElementById('inputFullname');
+        var inputUsername = document.getElementById('inputUsername');
+        var inputPassword = document.getElementById('inputPassword');
+        var radioAdmin = document.getElementById('radioAdmin');
+        var radioLibrarian = document.getElementById('radioLibrarian');
+        var currentImage = document.getElementById('currentImage');
+
+
+        // Gán dữ liệu của member vào các trường input
+        inputFullname.value = librarianData.fullname;
+        inputID.value = librarianData._id;
+        inputUsername.value = librarianData.username;
+        inputPassword.value = librarianData.password;
+
+        if (librarianData.statusAdmin === '1'){
+            radioAdmin.checked = true;
+        }else if (librarianData.statusAdmin === '0'){
+            radioLibrarian.checked = true;
+        }
+
+        currentImage.src = librarianData.image;
+        if (librarianData.image) {
+            currentImage.classList.remove('hiddenImage');
+            currentImage.classList.add('visibleImage');
+            currentImage.src = librarianData.image;
+        } else {
+            currentImage.classList.remove('visibleImage');
+            currentImage.classList.add('hiddenImage');
+        }
+
+    }
+
+    function confirmDelete(_id) {
+        var result = confirm("Bạn có chắc muốn xóa thủ thư này không?");
+        if (result) {
+            window.location.href = "listLibrarian/delete/?_id=" + _id;
+        }
+    }
+
+    function updateCurrentImage(input) {
+        var currentImage = document.getElementById('currentImage');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                currentImage.src = e.target.result;
+                currentImage.classList.remove('hiddenImage');
+                currentImage.classList.add('visibleImage');
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            currentImage.classList.remove('visibleImage');
+            currentImage.classList.add('hiddenImage');
+        }
+    }
+    function validateAndRedirect(data) {
+        var fullName = document.getElementById('inputFullName').value;
+        var username = document.getElementById('inputUsername').value;
+        var password = document.getElementById('inputPassword').value;
+        var foundMatch = false;
+        var count = 0;
+        if (fullName.length === 0 || username.length === 0 || password.length === 0) {
+            alert('Các trường dữ liệu không được để trống!');
+            return false
+        }
+
+        for (var i = 0; i < data.length; i++) {
+            if (username === data[i].username) {
+                count++;
+            }
+        }
+
+        if (count>0){
+            alert('Username đã được sử dụng!')
+            return false;
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</html>

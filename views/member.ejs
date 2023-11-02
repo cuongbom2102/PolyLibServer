@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyLib</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            width: 80%;
+            margin-left: 130px;
+        }
+        .row{
+            width: 80%;
+            margin-left: 130px;
+            margin-top: 20px;
+        }
+        #input{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+        .input{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+        /*.col-4{*/
+        /*    border-right: 1px solid gray;*/
+
+        /*}*/
+        #choose{
+            width: 300px;
+            margin-top: 20px;
+        }
+        #push{
+            width: 200px;
+            height: 40px;
+            margin-left: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: orange;
+            color: white;
+        }
+        #push:hover{
+            background-color: orangered;
+        }
+        .button:hover{
+            background-color: orangered;
+        }
+        .ListMember{
+            grid-area: ListMember;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .itemMember{
+            width: 200px;
+            height: 340px;
+            background-color: #e0dfdf;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .itemTextFullName{
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        .imgMember{
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            width: 100%; height: 60%;
+            object-fit: cover;margin-bottom: 5px
+        }
+        .itemText{
+            margin-left: 5px;
+        }
+        #buttonDelUp{
+            margin-left: 5px;
+            margin-top: 5px;
+            width: 45%;
+            height: 40px;
+        }
+        .hiddenImage {
+            display: none;
+        }
+        .hiddenImageAdd {
+            display: none;
+        }
+
+        .visibleImage {
+            display: block;
+        }
+        .visibleImageAdd {
+            display: block;
+        }
+    </style>
+</head>
+<body class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a style="margin-left: 20px; font-size: 23px; font-weight: bold" class="nav-link active" aria-current="page" href="/index">PolyLib
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/index">Trang chủ
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/member">Thành viên
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thống kê
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/top9BookBorrows">Thống kê top 9 sách mượn nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9BookSales">Thống kê top 9 sách bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9GoodsSales">Thống kê top 9 sản phẩm bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9Members">Thống kê top 9 thành viên hoạt động tích cực nhất</a></li>
+                        <li><a class="dropdown-item" href="/revenue">Thống kê doanh thu</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý tài khoản
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% if (librarian.statusAdmin === '1') {%>
+                            <li><a class="dropdown-item" href="/listLibrarian">Danh sách thủ thư</a></li>
+                            <li><a class="dropdown-item" href="/Librarian">Tạo tài khoản cho thủ thư</a></li>
+                        <% }%>
+                            <li><a class="dropdown-item" href="/rules">Điều khoản</a></li>
+                        <li><a class="dropdown-item" href="/changePassword">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="index/logout">Đăng xuất</a></li>
+
+                    </ul>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/notifications">Thông báo
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/repliesFromUser">Phản hồi từ người dùng
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-3" style="border-right: 1px solid gray; height: 1690px">
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sách</h5>
+        <div class="list-group">
+            <a href="/BookCategory" class="list-group-item list-group-item-action">Loại Sách</a>
+            <a href="/Author" class="list-group-item list-group-item-action">Tác Giả </a>
+            <a href="/Book" class="list-group-item list-group-item-action">Sách</a>
+            <a href="/loanSlip" class="list-group-item list-group-item-action">Phiếu Mượn</a>
+            <a href="/salesSlip" class="list-group-item list-group-item-action">Phiếu Bán</a>
+        </div>
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sản phẩm</h5>
+        <div class="list-group">
+            <a href="/goodsCategory" class="list-group-item list-group-item-action">Loại Sản Phẩm</a>
+            <a href="/Goods" class="list-group-item list-group-item-action">Sản Phẩm </a>
+            <a href="/Bill" class="list-group-item list-group-item-action">Hóa Đơn</a>
+        </div>
+
+
+        <h5 style="margin-top: 15px">Thêm thành viên</h5>
+        <form action="member/addMember" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect('add')">
+            <input class="input" id="input_fullname" name="fullName" type="text" placeholder="Enter full name...">
+            <input class="input" id="input_username" name=username type="text" placeholder="Enter username...">
+            <input class="input" id="input_email" name=email type="text" placeholder="Enter email...">
+            <input class="input" id="input_password" name=password type="text" placeholder="Enter password...">
+            <input class="input" id="input_phoneNumber" name="phoneNumber" type="text" placeholder="Enter phone number...">
+            <input class="input" id="input_address"  name="address" type="text" placeholder="Enter address...">
+            <input id="choose" type="file" name="imageMember" multiple onchange="addImage(this)">
+            <img class="hiddenImageAdd" style="width: 240px;height: 240px; margin-top: 10px" id="ImageAdd" src="" alt="Current Image">
+            <br><br>
+            <input id="push" type="submit" value="Save" >
+        </form>
+
+        <h5 style="margin-top: 30px">Cập nhật thành viên</h5>
+        <form action="member/updateMember" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect('update')">
+            <input class="input" id="input_id"  name="_id" type="hidden">
+            <input class="input" id="input_fullnameUpdate" name="fullName" type="text" placeholder="Enter full name...">
+            <input class="input" id="input_usernameUpdate" name="username" type="text" placeholder="Enter username...">
+            <input class="input" id="input_emailUpdate" name="email" type="text" placeholder="Enter email...">
+            <input class="input" id="input_passwordUpdate" name="password" type="text" placeholder="Enter password...">
+            <input class="input" id="input_phoneNumberUpdate" name="phoneNumber" type="text" placeholder="Enter phone number...">
+            <input class="input" id="input_addressUpdate" name="address" type="text" placeholder="Enter address...">
+            <input id="choose" type="file" name="imageMember" multiple onchange="updateCurrentImage(this)">
+            <img class="hiddenImage" style="width: 240px;height: 240px; margin-top: 10px" id="currentImageUpdate" src="" alt="Current Image">
+            <br><br>
+            <input id="push" type="submit" value="Update" >
+        </form>
+        <div style="height: 320px;background-color: #F8F9FA;;margin-top: 20px;border-radius: 10px">
+            <img style=" width: 100%; height: 50%;margin-top: 80px" src="uploads/image2.png">
+        </div>
+
+    </div>
+    <div class="col-9" style="height: 600px">
+
+        <h5>Danh sách thành viên</h5>
+        <div class="ListMember" >
+            <% data.forEach((member) => { %>
+            <div class="itemMember">
+                <img class="imgMember" src="<%= member.image %>">
+                <em class="itemTextFullName">TV: <%= member.fullName %></em>
+                <br>
+                <em class="itemText">SĐT: <%= member.phoneNumber %></em>
+                <br>
+                <em class="itemText">Địa chỉ: <%= member.address %></em>
+                <div class="btn">
+                    <button id="buttonDelUp" type="button" class="btn btn-warning" onclick="confirmDelete('<%= member._id %>')">Delete</button>
+                    <button id="buttonDelUp" type="button" class="btn btn-warning" onclick="loadItemData(<%= JSON.stringify(member) %>)">Update</button>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    function loadItemData(memberData) {
+        // Lấy các trường input
+        var input_id = document.getElementById('input_id');
+        var input_fullname = document.getElementById('input_fullnameUpdate');
+        var input_username = document.getElementById('input_usernameUpdate');
+        var input_email = document.getElementById('input_emailUpdate');
+        var input_password = document.getElementById('input_passwordUpdate');
+        var input_phoneNumber = document.getElementById('input_phoneNumberUpdate');
+        var input_address = document.getElementById('input_addressUpdate');
+        var currentImage = document.getElementById('currentImageUpdate');
+        // Gán dữ liệu của member vào các trường input
+        input_id.value = memberData._id;
+        input_fullname.value = memberData.fullName;
+        input_phoneNumber.value = memberData.phoneNumber;
+        input_username.value = memberData.username;
+        input_email.value = memberData.email;
+        input_password.value = memberData.password;
+        input_address.value = memberData.address;
+        currentImage.src = memberData.image;
+
+        if (memberData.image) {
+            currentImage.classList.remove('hiddenImage');
+            currentImage.classList.add('visibleImage');
+            currentImage.src = memberData.image;
+        } else {
+            currentImage.classList.remove('visibleImage');
+            currentImage.classList.add('hiddenImage');
+        }
+    }
+
+    function confirmDelete(_id) {
+        var result = confirm("Bạn có chắc muốn xóa thành viên này không?");
+        if (result) {
+            window.location.href = "member/delete/?_id=" + _id;
+        }
+    }
+
+    function updateCurrentImage(input) {
+        var currentImage = document.getElementById('currentImageUpdate');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                currentImage.src = e.target.result;
+                currentImage.classList.remove('hiddenImage');
+                currentImage.classList.add('visibleImage');
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            currentImage.classList.remove('visibleImage');
+            currentImage.classList.add('hiddenImage');
+        }
+    }
+    function addImage(input) {
+        var ImageAdd = document.getElementById('ImageAdd');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                ImageAdd.src = e.target.result;
+                ImageAdd.classList.remove('hiddenImageAdd');
+                ImageAdd.classList.add('visibleImageAdd');
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            ImageAdd.classList.remove('visibleImageAdd');
+            ImageAdd.classList.add('hiddenImageAdd');
+        }
+    }
+
+    function validateAndRedirect(status) {
+        var fullname;
+        var username;
+        var password;
+        var email;
+        var phoneNumber;
+        var address;
+        var image;
+        if (status==='add'){
+            fullName = document.getElementById('input_fullname').value;
+            username = document.getElementById('input_username').value;
+            password = document.getElementById('input_password').value;
+            email = document.getElementById('input_email').value;
+            phoneNumber = document.getElementById('input_phoneNumber').value;
+            address = document.getElementById('input_address').value;
+            image = document.getElementById('choose').files[0];
+
+
+            if (fullName.length === 0 || username.length === 0 || password.length === 0 || phoneNumber.length === 0 ||address.length === 0||email.length === 0 || !image) {
+                alert('Vui lòng điền đầy đủ thông tin và chọn ảnh!');
+                return false
+            }
+        }else if (status==='update') {
+            fullName = document.getElementById('input_fullnameUpdate').value;
+            username = document.getElementById('input_usernameUpdate').value;
+            email = document.getElementById('input_emailUpdate').value;
+            password = document.getElementById('input_passwordUpdate').value;
+            phoneNumber = document.getElementById('input_phoneNumberUpdate').value;
+            address = document.getElementById('input_addressUpdate').value;
+
+            if (fullName.length === 0 || username.length === 0 || password.length === 0 || phoneNumber.length === 0 ||address.length === 0||email.length === 0) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return false
+            }
+        }
+
+
+
+
+
+        // Kiểm tra định dạng email
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+            alert('Email không đúng định dạng!');
+            return false;
+        }
+
+        if (password.length < 8) {
+            alert('Mật khẩu phải có độ dài lớn hơn hoặc bằng 8 ký tự!');
+            return false;
+        }
+
+        // Kiểm tra số điện thoại với số 0 ở đầu
+        var phoneNumberPattern = /^0\d{9,10}$/;
+        if (!phoneNumberPattern.test(phoneNumber)) {
+            alert('Số điện thoại không đúng định dạng!');
+            return false;
+        }
+
+
+
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</html>

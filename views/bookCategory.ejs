@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyLib</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            width: 80%;
+            margin-left: 130px;
+        }
+        .row{
+            width: 80%;
+            margin-left: 130px;
+            margin-top: 20px;
+        }
+        #input{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+        #inputID{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+        #inputName{
+            width: 240px;
+            height: 40px;
+            padding-left: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #F8F9FA;
+        }
+        .col-3{
+            border-right: 1px solid gray;
+
+        }
+
+        #push{
+            width: 200px;
+            height: 40px;
+            margin-left: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: orange;
+            color: white;
+        }
+        #push:hover{
+            background-color: orangered;
+        }
+        .button:hover{
+            background-color: orangered;
+        }
+        .ListCategory{
+            grid-area: ListMember;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .itemCategory{
+            width: 200px;
+            height: 50px;
+            background-color: #F8F9FA;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: none;
+
+        }
+        .itemCategory:hover{
+            background-color: #c0c4c9;
+            color: white;
+        }
+        .itemTextCategory{
+            font-weight: bold;
+
+        }
+        .alert-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 5px;
+
+        }
+
+        .alert-dialog-content {
+            margin-bottom: 10px;
+        }
+
+        .alert-dialog-button {
+            width: 200px;
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 10px;
+
+        }
+        .alert-dialog-button:hover {
+            background-color: orangered;
+        }
+        .close-button{
+            margin-top: -20px;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: none;
+            float: right;
+            margin-right: -20px;
+            background-color: orange;
+
+
+        }
+        .close-button:hover{
+            background-color: orangered;
+        }
+
+        .ListBook{
+            grid-area: ListBook;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .itemBook{
+            width: 200px;
+            height: 320px;
+            background-color: #e0dfdf;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .itemTextName{
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        .imgBook{
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            width: 100%; height: 60%;
+            object-fit: cover;margin-bottom: 5px
+        }
+        .itemText{
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a style="margin-left: 20px; font-size: 23px; font-weight: bold" class="nav-link active" aria-current="page" href="/index">PolyLib
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/index">Trang chủ
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/member">Thành viên
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thống kê
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/top9BookBorrows">Thống kê top 9 sách mượn nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9BookSales">Thống kê top 9 sách bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9GoodsSales">Thống kê top 9 sản phẩm bán nhiều nhất</a></li>
+                        <li><a class="dropdown-item" href="/top9Members">Thống kê top 9 thành viên hoạt động tích cực nhất</a></li>
+                        <li><a class="dropdown-item" href="/revenue">Thống kê doanh thu</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý tài khoản
+                    </a>
+                    <ul class="dropdown-menu">
+                        <% if (librarian.statusAdmin === '1') {%>
+                            <li><a class="dropdown-item" href="/listLibrarian">Danh sách thủ thư</a></li>
+                            <li><a class="dropdown-item" href="/Librarian">Tạo tài khoản cho thủ thư</a></li>
+                        <% }%>
+                            <li><a class="dropdown-item" href="/rules">Điều khoản</a></li>
+                        <li><a class="dropdown-item" href="/changePassword">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="index/logout">Đăng xuất</a></li>
+
+                    </ul>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/notifications">Thông báo
+                    </a>
+                </li>
+                <li  class="nav-item">
+                    <a style="margin-left: 20px" class="nav-link" href="/repliesFromUser">Phản hồi từ người dùng
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-3" style="border-right: 1px solid gray;; height: 770px">
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sách</h5>
+        <div class="list-group">
+            <a href="/BookCategory" class="list-group-item list-group-item-action">Loại Sách</a>
+            <a href="/Author" class="list-group-item list-group-item-action">Tác Giả </a>
+            <a href="/Book" class="list-group-item list-group-item-action">Sách</a>
+            <a href="/loanSlip" class="list-group-item list-group-item-action">Phiếu Mượn</a>
+            <a href="/salesSlip" class="list-group-item list-group-item-action">Phiếu Bán</a>
+        </div>
+
+        <h5 style="margin-top: 10px;margin-bottom: 10px">Quản lý sản phẩm</h5>
+        <div class="list-group">
+            <a href="/goodsCategory" class="list-group-item list-group-item-action">Loại Sản Phẩm</a>
+            <a href="/Goods" class="list-group-item list-group-item-action">Sản Phẩm </a>
+            <a href="/Bill" class="list-group-item list-group-item-action">Hóa Đơn</a>
+        </div>
+
+        <h5 style="margin-top: 20px">Thêm loại sách</h5>
+        <form action="bookCategory/addBookCategory" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect('add')">
+            <input id="input" name="name" type="text" placeholder="Enter name category...">
+            <br><br>
+            <input id="push" type="submit" value="Save" >
+        </form>
+        <h5 style="margin-top: 20px">Cập nhật loại sách</h5>
+        <form action="bookCategory/updateBookCategory" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect('update')">
+            <input id="inputID" name="_id" type="hidden" readonly>
+            <input id="inputName" name="name" type="text" placeholder="Enter name category...">
+            <br><br>
+            <input id="push" type="submit" value="Update" >
+        </form>
+    </div>
+    <div class="col-9" style="height: 600px">
+        <h5>Thể loại sách</h5>
+        <div class="ListCategory" >
+            <% const book = dataBook%>
+            <% const author = dataAuthor%>
+            <% data.forEach((bookCategory) => { %>
+                <button class="itemCategory" onclick="openAlertDialog('<%= bookCategory._id %>', '<%= bookCategory.name %>', <%= JSON.stringify(book) %>, <%= JSON.stringify(author) %> )">
+                    <em class="itemTextCategory"><%= bookCategory.name %></em>
+                </button>
+            <% }) %>
+        </div>
+        <hr>
+        <h5 style="margin-bottom: 10px; font-style: italic" id="titleSearch"></h5>
+        <div id="divBooks"></div>
+    </div>
+</div>
+</body>
+<script>
+    function loadItemData(categoryId, categoryName) {
+        // Lấy các trường input
+        var input_id = document.getElementById('inputID');
+        var inputName = document.getElementById('inputName');
+
+
+        // Gán dữ liệu của member vào các trường input
+        input_id.value = categoryId;
+        inputName.value = categoryName;
+
+    }
+
+    // Thêm biến global để lưu trạng thái dialog đang mở
+    let isDialogOpen = false;
+    function openAlertDialog(categoryId, categoryName,dataBook,dataAuthor) {
+        if (isDialogOpen) return; // Đã mở rồi thì không mở lại
+        const alertDialog = document.createElement('div');
+        alertDialog.classList.add('alert-dialog');
+        isDialogOpen = true; // Đánh dấu rằng dialog đang mở
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close-button');
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', closeAlertDialog);
+
+        const content = document.createElement('div');
+        content.classList.add('alert-dialog-content');
+        content.textContent = `Bạn có muốn thực hiện hành động nào với danh mục: ${categoryName}?`;
+
+        const updateButton = document.createElement('button');
+        updateButton.classList.add('alert-dialog-button');
+        updateButton.textContent = 'Cập nhật';
+        updateButton.addEventListener('click', function() {
+            // Xử lý khi nút Update được bấm
+            // Ví dụ: Chuyển hướng đến trang cập nhật danh mục sách
+            loadItemData(categoryId, categoryName)
+            closeAlertDialog();
+        });
+
+        const searchButton = document.createElement('button');
+        searchButton.classList.add('alert-dialog-button');
+        searchButton.textContent = 'Hiển thị sách';
+        searchButton.addEventListener('click', function() {
+            // Xử lý khi nút Tìm kiếm được bấm
+            // Ví dụ: Thực hiện tìm kiếm với tên danh mục sách
+            performSearch(categoryId,categoryName,dataBook,dataAuthor);
+            closeAlertDialog();
+        });
+        alertDialog.appendChild(closeButton);
+        alertDialog.appendChild(content);
+        alertDialog.appendChild(updateButton);
+        alertDialog.appendChild(searchButton);
+
+        document.body.appendChild(alertDialog);
+    }
+
+    function closeAlertDialog() {
+        const alertDialog = document.querySelector('.alert-dialog');
+        if (alertDialog) {
+            document.body.removeChild(alertDialog);
+            isDialogOpen = false; // Đánh dấu rằng dialog đã đóng
+        }
+    }
+
+    function performSearch(categoryID, categoryName, book, author) {
+        const divBook = document.getElementById('divBooks');
+        const titleSearch = document.getElementById('titleSearch');
+        var title = '';
+        var bookSearch = [];
+
+        for (var i = 0; i < book.length; i++) {
+            if (categoryID === book[i].bookCategory) {
+                bookSearch.push(book[i]);
+            }
+        }
+
+
+        if (bookSearch.length === 0){
+            title = 'Không có cuốn sách nào có thể loại là : ' + categoryName;
+        }else {
+            title = 'Tất cả các cuốn sách có thể loại là : ' + categoryName;
+        }
+
+        let bookSearchDiv = `
+        <div class="ListBook">
+    `;
+
+        bookSearch.forEach((book) => {
+            const nameAuthor = author.find(author => author._id === book.author);
+            const booksJson = JSON.stringify(book);
+            const encodedBooksJson = encodeURI(booksJson);
+            bookSearchDiv += `
+            <div class="itemBook">
+                <img class="imgBook" src="${book.image}" alt="${book.name}">
+                ${book.name.length > 20 ? `<em class="itemTextName">${book.name.slice(0, 20) + '...'}</em>` : `<em class="itemTextName">${book.name}</em>`}
+                <br>
+                ${nameAuthor ? `<em class="itemText">TG: ${nameAuthor.fullName}</em>` : ''}
+                <br>
+                <em class="itemText">Giá tiền: ${(book.price || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</em>
+                 <button style="margin-left: 5px; margin-top: 5px; width: 95%" type="button" class="btn btn-warning"
+                     onclick="showDetails('${encodedBooksJson}')">Details</button>
+            </div>
+        `;
+        });
+
+        bookSearchDiv += `
+        </div>
+    `;
+        titleSearch.innerHTML = title
+        divBook.innerHTML = bookSearchDiv;
+    }
+
+
+    function showDetails(details){
+        const detail = decodeURI(details);
+        const books = JSON.parse(detail);
+        console.log(books)
+    }
+
+    function validateAndRedirect(status) {
+        var name;
+        if (status==='add'){
+            name = document.getElementById('input').value;
+
+
+
+
+        }else if (status==='update') {
+            name = document.getElementById('inputName').value;
+        }
+
+        if (name.length === 0) {
+            alert('Vui lòng điền đầy đủ thông tin!');
+            return false
+        }
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</html>
