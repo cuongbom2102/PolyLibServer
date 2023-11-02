@@ -17,7 +17,7 @@ router.get('/',async function(req, res, next) {
     const librarian = req.session.librarian; // Lấy thông tin người dùng từ session
     if (librarian) {
         console.log('Librarian found in session:', librarian); // Kiểm tra thông tin người dùng trong console
-        res.render('Member', { title: 'PolyLib', data: data, path: '/uploads/',librarian });
+        res.render('member', { title: 'PolyLib', data: data, path: '/uploads/',librarian });
     } else {
         console.log('No librarian in session'); // Kiểm tra thông tin người dùng trong console
         res.redirect('/'); // Chưa đăng nhập, chuyển hướng về trang đăng nhập

@@ -41,7 +41,7 @@ router.get('/',async function(req, res, next) {
     const librarian = req.session.librarian; // Lấy thông tin người dùng từ session
     if (librarian) {
         console.log('Librarian found in session:', librarian); // Kiểm tra thông tin người dùng trong console
-        res.render('SalesSlip', {
+        res.render('salesSlip', {
             title: 'PolyLib',
             dataMember: dataMember,
             dataBook:dataBook,
